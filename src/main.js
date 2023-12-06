@@ -11,16 +11,15 @@ let canvasHeight=canvas.height;
 
 const playGame = new Game();
 
-function animate(ninja){
+function animate(){
     window.requestAnimationFrame(animate);
 
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-    ninja.update();
-    ninja.draw();
+    playGame.run();
+
 }
 
-
-
+animate()
 
 
 

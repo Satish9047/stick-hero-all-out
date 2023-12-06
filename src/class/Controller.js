@@ -14,6 +14,4 @@ class Controller{
             console.log("mouse up event triggered")
         })
     }
-    
-    
 }
