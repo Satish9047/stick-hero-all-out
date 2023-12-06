@@ -5,6 +5,26 @@ const ctx = canvas.getContext("2d");
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
-ctx.fillStyle = "red";
-ctx.fillRect(10, 10, 10, 10);
+//saving the canvas width and height in an variable;
+let canvasWidth = canvas.width;
+let canvasHeight=canvas.height;
+
+const playGame = new Game();
+
+function animate(ninja){
+    window.requestAnimationFrame(animate);
+
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    ninja.update();
+    ninja.draw();
+}
+
+
+
+
+
+
+
+
+
 
