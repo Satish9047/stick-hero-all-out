@@ -1,8 +1,6 @@
-//creating game class for centralizing the animation and games
-class Game{
+class Game {
     constructor() {
-
-        //creating the state of th game
+        // creating the state of the game
         const state = {
             isWaiting: false,
             isStretching: false,
@@ -10,38 +8,56 @@ class Game{
             isWalking: false,
             isTransitioning: false,
             isFalling: false
-        }
+        };
 
-        //fixing the y co-ordinate for the ninja
-        let heroY = canvasHeight-(PLATFORM_HEIGHT + HERO_HEIGHT);
-
-
-        this.ninja = new Hero(0, heroY, HERO_WIDTH, HERO_HEIGHT, HERO_COLOR);
+        // platform
         this.platforms = [];
 
-        //get random number
-        const randomNumber = getRandomNumber(200, canvasHeight);
-        //generating platforms in random position
-        for( let i = 0; i < 3; i++){
-            const platformX = i * randomNumber; //for getting random spacing between 3 platform
-            const platform = new Platform(platformX,canvasHeight-200, 100);
+        // Set the first platform to be at 1/3 of the canvas width
+        const firstPlatformX = 300;
+        const firstPlatform = new Platform(firstPlatformX, canvasHeight - 200);
+        this.platforms.push(firstPlatform);
+
+        // Set the ninja's x-coordinate to be on the first platform
+        let heroX = firstPlatformX + (firstPlatform.platformWidth - HERO_WIDTH) / 2;
+        let heroY = canvasHeight - (PLATFORM_HEIGHT + HERO_HEIGHT);
+        this.ninja = new Hero(heroX, heroY, HERO_WIDTH, HERO_HEIGHT, HERO_COLOR);
+
+        // Generate additional platforms in random positions
+        for (let i = 2; i < 5; i++) {
+            const platformX = i * this.getRandomPlatformX(); // for getting random x-axis
+            const platform = new Platform(platformX, canvasHeight - 200);
             this.platforms.push(platform);
         }
+
+        // stick
+        this.stick = new Stick(this.ninja.x + this.ninja.heroWidth-STICK_WIDTH, this.ninja.y + this.ninja.heroHeight, STICK_WIDTH );
+
+
+        // controller
+        this.controller = new Controller();
+        this.controller.mouseDown();
+        this.controller.mouseUp();
     }
 
-    draw(){
-        this.ninja.draw()
+    draw() {
+        this.ninja.draw();
         this.platforms.forEach((platform) => {
             platform.draw();
         });
+        this.stick.draw();
     }
 
-    run(){
+    run() {
         this.ninja.update(this.platforms);
+        this.stick.update();
+        this.stick.x = this.ninja.x + this.ninja.heroWidth- STICK_WIDTH;
         this.draw();
     }
+
+
+    // to get the x axis
+    getRandomPlatformX() {
+        return getRandomNumber(350, 400);
+    }
 }
-
-
-
-

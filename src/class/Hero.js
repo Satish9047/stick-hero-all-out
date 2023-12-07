@@ -33,6 +33,12 @@ class Hero{
         ctx.drawImage(this.image, this.x, this.y, this.heroWidth, this.heroHeight);
     }
 
+
+    //build stick
+    increaseStickHeight(){
+
+    }
+
     //walk ability
     walk(){
         

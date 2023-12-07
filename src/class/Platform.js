@@ -2,7 +2,7 @@ class Platform{
     constructor(x, y) {
         this.x = x
         this.y= y
-        this.platformWidth = getRandomNumber(50, 120) //gets random width platform
+        this.platformWidth = getRandomNumber(50, 110) //gets random width platform
         this.platformHeight = PLATFORM_HEIGHT
         this.color = "black"
     }
