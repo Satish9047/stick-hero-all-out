@@ -9,34 +9,28 @@ class Hero{
         this.heroImg = heroImg
         this.heroLife = 3
         this.color = color
+        this.image = new Image();
+        this.image.src = "./src/img/ninjaorange1.png"
     }
 
     //updates
     update(platforms){
-
-        for(const platform of platforms){
-            // Check for collision with each platform
-            for (const platform of platforms) {
-                if (
-                    this.x + this.heroWidth >= platform.x &&
+        for (const platform of platforms) {
+            if (
+                this.x + this.heroWidth >= platform.x &&
                 this.x < platform.x + platform.platformWidth
                 ) {
-                    // Align the hero's right side with the platform's right side
-                    this.x = this.x + platform.platformWidth
-                }
+                // Align the hero's right side with the platform's right side
+                this.x = platform.x + platform.platformWidth- this.heroWidth;
             }
-
-            // Update other logic as needed
-            // For example, you can add code to handle other movements
-
-            // Example: Increment x to move the hero to the right
-            this.x++;
         }
+
         this.x++
     }
     draw(){
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.heroWidth, this.heroHeight);
+//        ctx.fillStyle = this.color;
+//        ctx.fillRect(this.x, this.y, this.heroWidth, this.heroHeight);
+        ctx.drawImage(this.image, this.x, this.y, this.heroWidth, this.heroHeight);
     }
 
     //walk ability

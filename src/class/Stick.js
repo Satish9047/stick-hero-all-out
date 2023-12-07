@@ -1,5 +1,5 @@
 class Stick{
-    constructor(x, y, stickHeight) {
+    constructor(x, y, stickWidth, stickHeight) {
         
     }
     stickStretch(){

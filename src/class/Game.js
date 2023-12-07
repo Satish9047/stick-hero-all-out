@@ -37,7 +37,7 @@ class Game{
     }
 
     run(){
-        this.ninja.update();
+        this.ninja.update(this.platforms);
         this.draw();
     }
 }
