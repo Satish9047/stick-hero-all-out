@@ -8,8 +8,6 @@ function collisionDetection(ninja, platform1){
     }
 }
 
-
-
 //get random number
 function getRandomNumber(min, max){
     return Math.floor(Math.random() * (max - min) + min);

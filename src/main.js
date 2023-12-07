@@ -9,8 +9,10 @@ canvas.width = window.innerWidth;
 let canvasWidth = canvas.width;
 let canvasHeight=canvas.height;
 
+//creating instance of the Game
 const playGame = new Game();
 
+//animation loop
 function animate(){
     window.requestAnimationFrame(animate);
 
