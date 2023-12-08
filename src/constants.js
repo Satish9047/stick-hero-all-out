@@ -16,3 +16,7 @@ const HERO_COLOR = "red"
 //const MAX_STRETCH_HEIGHT = 500;
 const STRETCH_SPEED = 4;
 const STICK_WIDTH = 3;
+
+//stick turning
+const ROTATE_ANGLE =90;
+const ROTATION_SPEED = 2;

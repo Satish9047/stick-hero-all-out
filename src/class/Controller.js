@@ -1,7 +1,8 @@
 class Controller{
     constructor() {
         this.stickStretch = false;
-
+        this.release = false;
+        console.log(this.release)
     }
     
     mouseDown(){
@@ -16,6 +17,8 @@ class Controller{
         window.addEventListener("mouseup", (event)=>{
 //            console.log("mouse down event triggered", event.clientX, event.clientY);
             this.stickStretch = false;
+            this.release = true;
+            console.log(this.release, "triggered release when the mouse is up")
         })
     }
 }
