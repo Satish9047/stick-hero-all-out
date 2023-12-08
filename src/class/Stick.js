@@ -1,20 +1,22 @@
 class Stick {
-    constructor(x, y, stickWidth, stickHeight) {
+    constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.stickWidth = stickWidth;
+        this.stickWidth = STICK_WIDTH;
         this.stickHeight = 0; // Set initial height to 0
-        this.controller = new Controller();
-        this.controller.stickStretch = false;
+//        this.controller = new Controller();
     }
 
     draw() {
-        ctx.fillRect(this.x, this.y - this.stickHeight, this.stickWidth, this.stickHeight);// Adjust y-coordinate to account for the height
+        ctx.fillStyle = "black";
+        ctx.fillRect(this.x, this.y - this.stickHeight, this.stickWidth, this.stickHeight);
+       // console.log(this.stickHeight, "this is the stick height from Stick");
     }
 
     update() {
-        if (this.controller.stickStretch) {
+//        console.log(this.controller.stickStretch);
+//        if (this.controller.stickStretch) {
             this.stickHeight += STRETCH_SPEED;
-        }
+//        }
     }
 }

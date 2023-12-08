@@ -13,6 +13,6 @@ const HERO_COLOR = "red"
 
 
 //stick properties
-const MAX_STRETCH_HEIGHT = 500;
+//const MAX_STRETCH_HEIGHT = 500;
 const STRETCH_SPEED = 4;
 const STICK_WIDTH = 3;

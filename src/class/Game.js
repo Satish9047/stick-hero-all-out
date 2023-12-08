@@ -31,8 +31,10 @@ class Game {
         }
 
         // stick
-        this.stick = new Stick(this.ninja.x + this.ninja.heroWidth-STICK_WIDTH, this.ninja.y + this.ninja.heroHeight, STICK_WIDTH );
+        let stickX = this.ninja.x + this.ninja.heroWidth-STICK_WIDTH
+        let stickY = this.ninja.y + this.ninja.heroHeight
 
+        this.stick = new Stick( stickX, stickY);
 
         // controller
         this.controller = new Controller();
@@ -50,7 +52,10 @@ class Game {
 
     run() {
         this.ninja.update(this.platforms);
-        this.stick.update();
+        //if mouse clicked
+        if(this.controller.stickStretch){
+            this.stick.update()
+        }
         this.stick.x = this.ninja.x + this.ninja.heroWidth- STICK_WIDTH;
         this.draw();
     }
