@@ -12,31 +12,21 @@ class Controller{
     mouseDown(){
         window.addEventListener("mousedown",(event)=>{
             //console.log("mouse down event triggered", event.clientX, event.clientY);
-            console.log(playGame.currentState, "show we the current state")
             if (playGame.currentState === GameState.WAITING) {
                 this.stickStretch = true;
+                playGame.currentState = GameState.STRETCHING;
+                console.log(playGame.currentState, "3rd");
             }
-//            this.stickStretch = true;
-            //console.log(this.stickStretch, "Mouse Down is triggred from controller");
-
         })
     }
     
     mouseUp(){
         window.addEventListener("mouseup", (event)=>{
-//            console.log("mouse down event triggered", event.clientX, event.clientY);
             this.stickStretch = false;
             this.release = true;
-            console.log(this.release, "triggered release when the mouse is up")
+            playGame.currentState = GameState.TURNING;
+            console.log(playGame.currentState, "4th")
         })
     }
 
-//    touch(){
-//        window.addEventListener("touchstart", ()=>{
-//
-//            this.stickStretch = false;
-//            this.release = true;
-//            console.log(this.release, "triggered release when the mouse is up")
-//        })
-//    }
 }

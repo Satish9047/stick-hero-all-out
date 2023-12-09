@@ -39,7 +39,9 @@ class Hero {
                 if (this.x + this.heroWidth >= platform.x + platform.platformWidth) {
                     // Align the hero's right side with the platform's right side
                     this.x = platform.x + platform.platformWidth - this.heroWidth;
+                    VELOCITY = 0;
                     playGame.currentState = GameState.WAITING; // Change state to WAITING
+                    console.log(playGame.currentState, "2nd")
                 }
             }
         }

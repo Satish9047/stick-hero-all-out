@@ -12,6 +12,7 @@ class Game {
         // game state
         // state = ["waiting", "stretching", "turning", "walking", "transitioning", "falling"]
         this.currentState = GameState.WALKING;
+        console.log(this.currentState, "1st")
 
         // platform
         this.platforms = [];
