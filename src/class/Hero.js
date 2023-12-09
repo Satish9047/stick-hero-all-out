@@ -21,36 +21,32 @@ class Hero {
         VELOCITY += GRAVITY;
         this.y += VELOCITY;
 
-
         for (const platform of platforms) {
             if (collisionDetection(playGame.ninja, platform)) {
                 // Check collision with the platform
-                this.y = platform.y - this.heroHeight;// Adjust y-coordinate to be on the platform
-                this.isNinjaAttached = true;// Set the flag to indicate that the ninja is attached to the platform
+                this.y = platform.y - this.heroHeight; // Adjust y-coordinate to be on the platform
 
-                if (playGame.currentState === GameState.FALLING) {
+//                if (playGame.currentState === GameState.FALLING) {
                     // Change the state to walking when colliding with a platform
                     playGame.currentState = GameState.WALKING;
-                }
+//                }
             }
         }
 
         if (playGame.currentState === GameState.WALKING) {
-            // Move to the right on the platform
-            this.x += HERO_SPEED;
-
             // Check if the hero's right side aligns with the platform's right side
             for (const platform of platforms) {
                 if (this.x + this.heroWidth >= platform.x + platform.platformWidth) {
                     // Align the hero's right side with the platform's right side
                     this.x = platform.x + platform.platformWidth - this.heroWidth;
-                    playGame.currentState = GameState.WAITING;// Change state to WAITING
+                    playGame.currentState = GameState.WAITING; // Change state to WAITING
                 }
             }
         }
-        this.x+= HERO_SPEED
 
+        this.x += HERO_SPEED;
     }
+
 
     draw() {
         ctx.drawImage(this.image, this.x, this.y, this.heroWidth, this.heroHeight);

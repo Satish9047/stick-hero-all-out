@@ -11,7 +11,7 @@ class Game {
     constructor() {
         // game state
         // state = ["waiting", "stretching", "turning", "walking", "transitioning", "falling"]
-        this.currentState = GameState.WAITING;
+        this.currentState = GameState.WALKING;
 
         // platform
         this.platforms = [];
@@ -45,7 +45,7 @@ class Game {
         // stick
         let stickX = this.ninja.x + this.ninja.heroWidth-STICK_WIDTH
         let stickY = this.ninja.y + this.ninja.heroHeight
-        this.stick = new Stick( stickX, stickY);
+        this.stick = new Stick(this.ninja);
 
 
         // controller
