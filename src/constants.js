@@ -10,6 +10,7 @@ const PLATFORM_HEIGHT = 200;
 const HERO_HEIGHT = 50;
 const HERO_WIDTH = 50;
 const HERO_COLOR = "red"
+const HERO_SPEED = 1;
 
 
 //stick properties
@@ -18,5 +19,5 @@ const STRETCH_SPEED = 4;
 const STICK_WIDTH = 3;
 
 //stick turning
-const ROTATE_ANGLE =90;
+const ROTATE_ANGLE = 90;
 const ROTATION_SPEED = 2;

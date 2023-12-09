@@ -22,10 +22,3 @@ function animate(){
 }
 
 animate()
-
-
-
-
-
-
-

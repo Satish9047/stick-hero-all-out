@@ -17,13 +17,14 @@ class Stick {
     }
 
     update() {
-        this.stickHeight += STRETCH_SPEED;
+            this.stickHeight += STRETCH_SPEED;
     }
 
     rotate() {
-        if (this.rotation < 90) {
+     if (this.rotation < 90) {
             this.rotation += ROTATION_SPEED;
         }
+
     }
 }
 

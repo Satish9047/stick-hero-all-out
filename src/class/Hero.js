@@ -21,25 +21,26 @@ class Hero{
                 this.x < platform.x + platform.platformWidth
                 ) {
                 // Align the hero's right side with the platform's right side
-                this.x = platform.x + platform.platformWidth- this.heroWidth;
+                this.x = platform.x + platform.platformWidth - this.heroWidth;
             }
         }
 
         this.x++
     }
     draw(){
-//        ctx.fillStyle = this.color;
-//        ctx.fillRect(this.x, this.y, this.heroWidth, this.heroHeight);
         ctx.drawImage(this.image, this.x, this.y, this.heroWidth, this.heroHeight);
     }
 
+    moveTONextPlatform(){
 
-    //build stick
+    }
+
+   //build stick
     increaseStickHeight(){
 
     }
 
-    //walk ability
+//walk ability
     walk(){
         
     }
