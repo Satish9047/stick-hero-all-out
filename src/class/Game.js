@@ -40,7 +40,7 @@ class Game {
         // Set the ninja's x-coordinate to be on the first platform
         let heroX = firstPlatformX + (firstPlatform.platformWidth - HERO_WIDTH) / 2;
         let heroY = canvasHeight - (PLATFORM_HEIGHT + HERO_HEIGHT);
-        this.ninja = new Hero(heroX, heroY, HERO_WIDTH, HERO_HEIGHT, HERO_COLOR);
+        this.ninja = new Hero(100, 200, HERO_WIDTH, HERO_HEIGHT, HERO_COLOR);
 
         // stick
         let stickX = this.ninja.x + this.ninja.heroWidth-STICK_WIDTH
@@ -78,6 +78,7 @@ class Game {
 //                console.log(this.currentState);
             this.ninja.moveTONextPlatform(this.platforms);
 //                this.stick.rotation = 0;
+            this.ninja.walk();
 
             }
         }

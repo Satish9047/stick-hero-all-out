@@ -1,11 +1,11 @@
 //detection between ninja and platform
-function collisionDetection(ninja, platform1){
-    if(ninja.x < platform1.x + platform1.platformWidth &&
-        ninja.x + ninja.heroWidth > platform1.x &&
-        ninja.y < platform1.y + platform1.platformHeight &&
-        ninja.y + ninja.heroHeight > platform1.platformHeight){
-        playGame.ninja.y = canvasHeight-platform1.height;
-    }
+function collisionDetection(ninja, platform) {
+    return (
+        ninja.x < platform.x + platform.platformWidth &&
+        ninja.x + ninja.heroWidth > platform.x &&
+        ninja.y < platform.y + platform.platformHeight &&
+        ninja.y + ninja.heroHeight > platform.y
+        );
 }
 
 //get random number
