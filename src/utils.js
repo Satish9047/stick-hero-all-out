@@ -12,3 +12,13 @@ function collisionDetection(ninja, platform) {
 function getRandomNumber(min, max){
     return Math.floor(Math.random() * (max - min) + min);
 }
+
+// Detection between ninja and object (stick or platform)
+function collisionDetectionWithStick(ninja, object) {
+    return (
+        ninja.x < object.x + object.width &&
+        ninja.x + ninja.width > object.x &&
+        ninja.y < object.y + object.height &&
+        ninja.y + ninja.height > object.y
+        );
+}
