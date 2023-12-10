@@ -1,24 +1,24 @@
-//detection between ninja and platform
 function collisionDetection(ninja, platform) {
+    //console.log(ninja.x <= platform.x + platform.platformWidth, ninja.x + ninja.heroWidth >= platform.x, ninja.y <= platform.y + platform.platformHeight, ninja.y + ninja.heroHeight >= platform.y )
     return (
-        ninja.x < platform.x + platform.platformWidth &&
-        ninja.x + ninja.heroWidth > platform.x &&
-        ninja.y < platform.y + platform.platformHeight &&
-        ninja.y + ninja.heroHeight > platform.y
+        ninja.x <= platform.x + platform.platformWidth &&
+        ninja.x + ninja.heroWidth >= platform.x &&
+        ninja.y <= platform.y + platform.platformHeight &&
+        ninja.y + ninja.heroHeight >= platform.y
         );
 }
 
 //get random number
-function getRandomNumber(min, max){
+function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
-// Detection between ninja and object (stick or platform)
-function collisionDetectionWithStick(ninja, object) {
+function collisionDetectionWithStick(ninja, stick) {
+
     return (
-        ninja.x < object.x + object.width &&
-        ninja.x + ninja.width > object.x &&
-        ninja.y < object.y + object.height &&
-        ninja.y + ninja.height > object.y
+        ninja.x <= stick.x + stick.stickHeight &&
+        ninja.x + ninja.heroWidth >= stick.x &&
+        ninja.y <= stick.y + stick.stickWidth &&
+        ninja.y + ninja.heroHeight >= stick.y
         );
 }

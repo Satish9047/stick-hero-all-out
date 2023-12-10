@@ -16,40 +16,55 @@ class Hero {
     update(platforms, stick) {
         // Apply gravity when falling
         VELOCITY += GRAVITY;
-        this.y += VELOCITY;
+
 
         // Check collision with platforms
         for (const platform of platforms) {
+            //console.log(collisionDetection(playGame.ninja, platform))
             if (collisionDetection(playGame.ninja, platform)) {
-                // Adjust hero's position to be on top of the platform
+
                 this.y = platform.y - this.heroHeight;
+                VELOCITY = 0;
             }
         }
-        console.log("collision detected with stick", collisionDetection(playGame.ninja, stick))
+
+        //console.log("collision detected with stick",  collisionDetectionWithStick(playGame.ninja, stick), collisionDetection(playGame.ninja, stick), collisionDetection(stick, playGame.ninja))
+//        console.log(this.y, VELOCITY);
+
         // Check collision with the stick
-        if (collisionDetection(playGame.ninja, stick)) {
+        if (collisionDetectionWithStick(playGame.ninja, stick)) {
             this.y = stick.y - this.heroHeight;
+            VELOCITY = 0;
         }
+
+
 
         // Update hero's position based on the game state
         switch (playGame.currentState) {
             case GameState.WAITING:
             case GameState.STRETCHING:
             case GameState.TURNING:
-            case GameState.TRANSITIONING:
-                this.adjustToPlatform(platforms);
+                for (const platform of platforms) {
+                    if (this.x + this.heroWidth >= platform.x + platform.platformWidth) {
+
+                        this.x = platform.x + platform.platformWidth - this.heroWidth;
+                        VELOCITY = 0;
+                    }
+                }
                 break;
 
             case GameState.WALKING:
-                // Check if the hero is on top of the stick
-                this.adjustToStick(stick);
+
+                this.x += HERO_SPEED;
                 break;
 
             default:
                 this.x += HERO_SPEED;
         }
 
-        this.x += HERO_SPEED; // Move the hero horizontally
+
+        this.y += VELOCITY;
+        this.x += HERO_SPEED;
     }
 
     // Draw the hero on the canvas
@@ -57,25 +72,7 @@ class Hero {
         ctx.drawImage(this.image, this.x, this.y, this.heroWidth, this.heroHeight);
     }
 
-    // Method to adjust hero's position to be on top of the stick
-    adjustToStick(stick) {
-        if (this.y + this.heroHeight >= stick.y && this.x + this.heroWidth >= stick.x && this.x <= stick.x + stick.stickWidth) {
-            this.y = stick.y - this.heroHeight;
-        } else {
-            this.x += HERO_SPEED;
-        }
-    }
 
-    // Method to align hero's right side with the right side of the platform
-    adjustToPlatform(platforms) {
-        for (const platform of platforms) {
-            if (this.x + this.heroWidth >= platform.x + platform.platformWidth) {
-                // Align the hero's right side with the platform's right side
-                this.x = platform.x + platform.platformWidth - this.heroWidth;
-                VELOCITY = 0; // Stop vertical movement
-            }
-        }
-    }
 
 
     moveTONextPlatform(stick, platform) {
