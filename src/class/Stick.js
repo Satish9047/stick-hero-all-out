@@ -24,9 +24,9 @@ class Stick {
     rotate() {
         if (this.rotation < 90) {
             this.rotation += ROTATION_SPEED;
-        }if(this.rotation === 90){
+        }
+        if(this.rotation === 90){
             playGame.currentState = GameState.WALKING;
-            console.log(playGame.currentState, "5th")
         }
     }
 }

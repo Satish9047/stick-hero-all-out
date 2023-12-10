@@ -28,24 +28,81 @@ class Hero {
 
 //                if (playGame.currentState === GameState.FALLING) {
                     // Change the state to walking when colliding with a platform
-                    playGame.currentState = GameState.WALKING;
+//                    playGame.currentState = GameState.WALKING;
 //                }
             }
         }
 
-        if (playGame.currentState === GameState.WALKING) {
-            // Check if the hero's right side aligns with the platform's right side
-            for (const platform of platforms) {
-                if (this.x + this.heroWidth >= platform.x + platform.platformWidth) {
-                    // Align the hero's right side with the platform's right side
-                    this.x = platform.x + platform.platformWidth - this.heroWidth;
-                    VELOCITY = 0;
-                    playGame.currentState = GameState.WAITING; // Change state to WAITING
-                    console.log(playGame.currentState, "2nd")
+        switch (playGame.currentState) {
+            case GameState.WAITING:
+                for (const platform of platforms) {
+                    if (this.x + this.heroWidth >= platform.x + platform.platformWidth) {
+                        console.log("hello");
+                        // Align the hero's right side with the platform's right side
+                        this.x = platform.x + platform.platformWidth - this.heroWidth;
+                        VELOCITY = 0;
+                    }
                 }
-            }
+                break;
+            case GameState.STRETCHING:
+                for (const platform of platforms) {
+                    if (this.x + this.heroWidth >= platform.x + platform.platformWidth) {
+                        console.log("hello");
+                        // Align the hero's right side with the platform's right side
+                        this.x = platform.x + platform.platformWidth - this.heroWidth;
+                        VELOCITY = 0;
+                    }
+                }
+                break;
+            case GameState.TURNING:
+                for (const platform of platforms) {
+                    if (this.x + this.heroWidth >= platform.x + platform.platformWidth) {
+                        console.log("hello");
+                        // Align the hero's right side with the platform's right side
+                        this.x = platform.x + platform.platformWidth - this.heroWidth;
+                        VELOCITY = 0;
+                    }
+                }
+                break;
+
+            case GameState.WALKING:
+                this.x += HERO_SPEED;
+            break;
+
+            case GameState.TRANSITIONING:
+                for (const platform of platforms) {
+                    if (this.x + this.heroWidth >= platform.x + platform.platformWidth) {
+                        console.log("hello");
+                        // Align the hero's right side with the platform's right side
+                        this.x = platform.x + platform.platformWidth - this.heroWidth;
+                        VELOCITY = 0;
+                    }
+                }
+                break;
+            default:
+                this.x += HERO_SPEED;
         }
 
+//        if (playGame.currentState === GameState.WAITING ) {
+//            // Check if the hero's right side aligns with the platform's right side
+//            for (const platform of platforms) {
+//                if (this.x + this.heroWidth >= platform.x + platform.platformWidth) {
+//                    console.log("hello");
+//                    // Align the hero's right side with the platform's right side
+//                    this.x = platform.x + platform.platformWidth - this.heroWidth;
+//                    VELOCITY = 0;
+//                }
+//            }
+//
+//            // Move the hero if not colliding and in the WALKING state
+//            if (playGame.currentState === GameState.WALKING) {
+//                this.x += HERO_SPEED;
+//            }
+//
+//            // Log the game state outside of the loop
+//            console.log(playGame.currentState, "2nd");
+//        }
+//
         this.x += HERO_SPEED;
     }
 

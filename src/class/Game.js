@@ -11,7 +11,7 @@ class Game {
     constructor() {
         // game state
         // state = ["waiting", "stretching", "turning", "walking", "transitioning", "falling"]
-        this.currentState = GameState.WALKING;
+        this.currentState = GameState.WAITING;
         console.log(this.currentState, "1st")
 
         // platform
@@ -41,7 +41,7 @@ class Game {
         // Set the ninja's x-coordinate to be on the first platform
         let heroX = firstPlatformX + (firstPlatform.platformWidth - HERO_WIDTH) / 2;
         let heroY = canvasHeight - (PLATFORM_HEIGHT + HERO_HEIGHT);
-        this.ninja = new Hero(100, 200, HERO_WIDTH, HERO_HEIGHT, HERO_COLOR);
+        this.ninja = new Hero(heroX, heroY, HERO_WIDTH, HERO_HEIGHT, HERO_COLOR);
 
         // stick
         let stickX = this.ninja.x + this.ninja.heroWidth-STICK_WIDTH
@@ -86,6 +86,10 @@ class Game {
 
         if (this.controller.stickStretch) {
             this.stick.x = this.ninja.x + this.ninja.heroWidth - STICK_WIDTH;
+        }
+
+        if(this.stick.rotation === 90){
+            this.ninja.x += HERO_SPEED;
         }
 
         this.draw();

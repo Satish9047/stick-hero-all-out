@@ -2,7 +2,7 @@ class Controller{
     constructor() {
         this.stickStretch = false;
         this.release = false;
-        console.log(this.release);
+//        console.log(this.release);
 
         this.mouseDown();
         this.mouseUp();
