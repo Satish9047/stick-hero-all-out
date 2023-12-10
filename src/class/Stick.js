@@ -5,6 +5,7 @@ class Stick {
         this.stickWidth = STICK_WIDTH;
         this.stickHeight = 0; // Set initial height to 0
         this.rotation = 0;
+        this.isStickAttached = true;
 
     }
 
@@ -18,7 +19,9 @@ class Stick {
     }
 
     update() {
-        this.stickHeight += STRETCH_SPEED;
+        if (this.isStickAttached) {
+            this.stickHeight += STRETCH_SPEED;
+        }
     }
 
     rotate() {
@@ -26,7 +29,17 @@ class Stick {
             this.rotation += ROTATION_SPEED;
         }
         if(this.rotation === 90){
+            this.isStickAttached = false;
             playGame.currentState = GameState.WALKING;
+            console.log("is the stick attached?", this.isStickAttached);
+        }
+    }
+
+    setPositionRelativeToPlatform(platforms){
+        const platform = platforms.find(platform => this.hero.x >= platform.x && this.hero.x <= platform.x + platform.platformWidth);
+        if (platform) {
+            this.x = platform.x + platform.platformWidth / 2 - STICK_WIDTH / 2;
+            this.y = platform.y;
         }
     }
 }

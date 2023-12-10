@@ -10,36 +10,28 @@ const GameState = {
 class Game {
     constructor() {
         // game state
-        // state = ["waiting", "stretching", "turning", "walking", "transitioning", "falling"]
         this.currentState = GameState.WAITING;
         console.log(this.currentState, "1st")
 
         // platform
         this.platforms = [];
 
+        // Generate platforms with random spacing and width using a loop
+        let prevX = canvasWidth / 4; // Set the starting position for the first platform
 
-            // Set the first platform to be at 1/4 of the canvas width
-            const firstPlatformX = canvasWidth / 4;
-            const firstPlatform = new Platform(firstPlatformX, canvasHeight - 200);
-            this.platforms.push(firstPlatform);
+        for (let i = 0; i < 4; i++) { // You can adjust the loop count based on your requirement
+            const platformWidth = getRandomNumber(50, 110);
 
-            // Generate additional platforms with random spacing and width
-            let prevX = firstPlatformX + firstPlatform.platformWidth + getRandomNumber(50, 250);
+            const platform = new Platform(prevX, canvasHeight - 200, platformWidth);
+            this.platforms.push(platform);
 
-            for (let i = 1; i < 3; i++) {
-                const platformX = prevX + getRandomNumber(50, 250);
-                const platformWidth = getRandomNumber(50, 110);
-
-                const platform = new Platform(platformX, canvasHeight - 200, platformWidth);
-                this.platforms.push(platform);
-
-                prevX = platformX + platformWidth;
-            }
-
+            // Update the starting position for the next platform
+            prevX += platformWidth + getRandomNumber(50, 250);
+        }
 
         // Instance of Hero
         // Set the ninja's x-coordinate to be on the first platform
-        let heroX = firstPlatformX + (firstPlatform.platformWidth - HERO_WIDTH) / 2;
+        let heroX = this.platforms[0].x + (this.platforms[0].platformWidth - HERO_WIDTH) / 2;
         let heroY = canvasHeight - (PLATFORM_HEIGHT + HERO_HEIGHT);
         this.ninja = new Hero(heroX, heroY, HERO_WIDTH, HERO_HEIGHT, HERO_COLOR);
 
@@ -47,7 +39,6 @@ class Game {
         let stickX = this.ninja.x + this.ninja.heroWidth-STICK_WIDTH
         let stickY = this.ninja.y + this.ninja.heroHeight
         this.stick = new Stick(this.ninja);
-
 
         // controller
         this.controller = new Controller();
@@ -72,15 +63,11 @@ class Game {
         //when the mouse up triggered
         if (this.controller.release) {
             this.currentState = GameState.TURNING;
-//            console.log(this.currentState, "from the turning")
             this.stick.rotate();
-        if (this.stick.rotation >= 90) {
-            this.currentState = GameState.WALKING;
-//                console.log(this.currentState);
-            this.ninja.moveTONextPlatform(this.platforms);
-//                this.stick.rotation = 0;
-            this.ninja.walk();
-
+            if (this.stick.rotation >= 90) {
+                this.currentState = GameState.WALKING;
+                this.ninja.moveTONextPlatform(this.platforms);
+                this.ninja.walk();
             }
         }
 
@@ -88,18 +75,14 @@ class Game {
             this.stick.x = this.ninja.x + this.ninja.heroWidth - STICK_WIDTH;
         }
 
-        if(this.stick.rotation === 90){
-            this.ninja.x += HERO_SPEED;
+        if (this.stick.rotation === 90) {
+            this.stick.setPositionRelativeToPlatform(this.platforms);
         }
 
         this.draw();
     }
-
-    // to get the x axis
-    getRandomPlatformX() {
-        return getRandomNumber(350, 400);
-    }
 }
+
 
 
 
