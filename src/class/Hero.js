@@ -38,6 +38,17 @@ class Hero {
         }
 
 
+        //fall condition
+        for (const platform of platforms){
+            console.log(playGame.currentState)
+            if(this.y + this.heroHeight > platform.y){
+                VELOCITY += GRAVITY;
+                this.y += VELOCITY;
+                this.x += 0;
+            }
+        }
+
+
 
         // Update hero's position based on the game state
         switch (playGame.currentState) {
