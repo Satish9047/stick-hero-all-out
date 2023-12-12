@@ -17,19 +17,16 @@ class Hero {
         // Apply gravity when falling
         VELOCITY += GRAVITY;
 
+        
 
         // Check collision with platforms
         for (const platform of platforms) {
             //console.log(collisionDetection(playGame.ninja, platform))
             if (collisionDetection(playGame.ninja, platform)) {
-
                 this.y = platform.y - this.heroHeight;
                 VELOCITY = 0;
             }
         }
-
-        //console.log("collision detected with stick",  collisionDetectionWithStick(playGame.ninja, stick), collisionDetection(playGame.ninja, stick), collisionDetection(stick, playGame.ninja))
-//        console.log(this.y, VELOCITY);
 
         // Check collision with the stick
         if (collisionDetectionWithStick(playGame.ninja, stick)) {
@@ -39,15 +36,14 @@ class Hero {
 
 
         //fall condition
-        for (const platform of platforms){
-            console.log(playGame.currentState)
-            if(this.y + this.heroHeight > platform.y){
+        for (const platform of platforms) {
+            //console.log(playGame.currentState)
+            if (this.y + this.heroHeight > platform.y) {
                 VELOCITY += GRAVITY;
                 this.y += VELOCITY;
                 this.x += 0;
             }
         }
-
 
 
         // Update hero's position based on the game state
@@ -57,7 +53,6 @@ class Hero {
             case GameState.TURNING:
                 for (const platform of platforms) {
                     if (this.x + this.heroWidth >= platform.x + platform.platformWidth) {
-
                         this.x = platform.x + platform.platformWidth - this.heroWidth;
                         VELOCITY = 0;
                     }
@@ -82,8 +77,6 @@ class Hero {
     draw() {
         ctx.drawImage(this.image, this.x, this.y, this.heroWidth, this.heroHeight);
     }
-
-
 
 
     moveTONextPlatform(stick, platform) {

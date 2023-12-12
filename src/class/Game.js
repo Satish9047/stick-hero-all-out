@@ -9,8 +9,10 @@ const GameState = {
 
 class Game {
     constructor() {
+
+        this.currentPlatform = null
         // game state
-        this.currentState = GameState.WAITING;
+        this.currentState = GameState.WALKING;
         console.log(this.currentState, "1st")
 
         // platform
@@ -50,6 +52,24 @@ class Game {
     run() {
         this.ninja.update(this.platforms, this.stick);
 
+
+        //stop the hero
+        if (this.currentPlatform && this.ninja.x + this.ninja.heroWidth > this.currentPlatform.x + this.currentPlatform.platformWidth) {
+            console.log(this.currentPlatform && this.ninja.x + this.ninja.heroWidth > this.currentPlatform.x + this.currentPlatform.platformWidth, "is detecting platform")
+            this.currentState = GameState.WAITING;
+            this.ninja.x = this.currentPlatform.x + this.currentPlatform.platformWidth - this.ninja.heroWidth;
+            VELOCITY = 0;
+        }
+
+         //move
+        if (this.stick.rotation === 90 && this.ninja.x < this.stick.x + this.stick.stickHeight) {
+            this.currentState = GameState.WALKING;
+            this.ninja.x += HERO_SPEED;
+        }
+
+
+        this.currentPlatform = this.getCurrentPlatform();
+        //console.log(this.currentPlatform, "is the platform that hero is in!")
         //if mouse clicked the stick height increased
         if (this.controller.stickStretch) {
             this.currentState = GameState.STRETCHING;
@@ -62,7 +82,7 @@ class Game {
             this.stick.rotate();
             if (this.stick.rotation >= 90) {
                 this.currentState = GameState.WALKING;
-                this.ninja.moveTONextPlatform(this.platforms);
+//                this.ninja.moveTONextPlatform(this.platforms);
                 this.ninja.walk();
             }
         }
@@ -75,7 +95,36 @@ class Game {
 //            this.ninja.walk()
         }
 
+        if (this.ninja.y > canvasHeight) {
+            this.restartGame()
+        }
+
+
+
         this.draw();
+    }
+
+    getCurrentPlatform() {
+        for (let i = 0; i < this.platforms.length; i++) {
+            const platform = this.platforms[i];
+            if (
+                this.ninja.y + this.ninja.heroHeight >= platform.y &&
+                this.ninja.y <= platform.y + platform.platformHeight &&
+                this.ninja.x >= platform.x &&
+                this.ninja.x + this.ninja.heroWidth <= platform.x + platform.platformWidth
+            ) {
+                //console.log(`Hero is on Platform ${i + 1}`);
+                return platform;
+            }
+        }
+
+        console.log("Hero is not on any platform");
+        return null;
+    }
+
+
+    restartGame() {
+//        console.log("restartGame")
     }
 }
 
