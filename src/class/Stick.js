@@ -6,7 +6,6 @@ class Stick {
         this.stickWidth = STICK_WIDTH;
         this.stickHeight = 0; // Set initial height to 0
         this.rotation = 0;
-
     }
 
     draw() {
@@ -30,5 +29,4 @@ class Stick {
             playGame.currentState = GameState.WALKING;
         }
     }
-
 }

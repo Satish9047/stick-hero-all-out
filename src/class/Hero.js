@@ -51,12 +51,12 @@ class Hero {
             case GameState.WAITING:
             case GameState.STRETCHING:
             case GameState.TURNING:
-                for (const platform of platforms) {
-                    if (this.x + this.heroWidth >= platform.x + platform.platformWidth) {
-                        this.x = platform.x + platform.platformWidth - this.heroWidth;
-                        VELOCITY = 0;
-                    }
-                }
+//                for (const platform of platforms) {
+//                    if (this.x + this.heroWidth >= platform.x + platform.platformWidth) {
+//                        this.x = platform.x + platform.platformWidth - this.heroWidth;
+//                        VELOCITY = 0;
+//                    }
+//                }
                 break;
 
             case GameState.WALKING:

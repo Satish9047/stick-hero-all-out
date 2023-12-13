@@ -35,6 +35,8 @@ class Game {
         // stick
         let stickX = this.ninja.x
         let stickY = this.ninja.y + this.ninja.heroHeight
+
+        this.stickArry =[]
         this.stick = new Stick(stickX, stickY);
 
         // controller
@@ -51,7 +53,6 @@ class Game {
 
     run() {
         this.ninja.update(this.platforms, this.stick);
-
 
         //stop the hero
         if (this.currentPlatform && this.ninja.x + this.ninja.heroWidth > this.currentPlatform.x + this.currentPlatform.platformWidth) {
