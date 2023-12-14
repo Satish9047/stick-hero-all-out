@@ -1,36 +1,31 @@
 // Creating the Hero Class
 class Hero {
-    constructor(x, y, heroWidth, heroHeight, color, heroImg) {
+    constructor(x, y, heroWidth, heroHeight) {
         this.x = x;
         this.y = y;
-        this.heroWidth = heroWidth;
-        this.heroHeight = heroHeight;
-        this.heroImg = heroImg;
-        this.heroLife = 3;
-        this.color = color;
+        this.width = heroWidth;
+        this.height = heroHeight;
         this.image = new Image();
         this.image.src = "./src/img/ninjaorange1.png";
     }
 
     // Update method
-    update(platforms, stick) {
+    update(platforms, stick, currentPlatform) {
         // Apply gravity when falling
         VELOCITY += GRAVITY;
-
         
-
         // Check collision with platforms
         for (const platform of platforms) {
             //console.log(collisionDetection(playGame.ninja, platform))
             if (collisionDetection(playGame.ninja, platform)) {
-                this.y = platform.y - this.heroHeight;
+                this.y = platform.y - this.height;
                 VELOCITY = 0;
             }
         }
 
         // Check collision with the stick
         if (collisionDetectionWithStick(playGame.ninja, stick)) {
-            this.y = stick.y - this.heroHeight;
+            this.y = stick.y - this.height;
             VELOCITY = 0;
         }
 
@@ -38,36 +33,12 @@ class Hero {
         //fall condition
         for (const platform of platforms) {
             //console.log(playGame.currentState)
-            if (this.y + this.heroHeight > platform.y) {
+            if (this.y + this.height > platform.y) {
                 VELOCITY += GRAVITY;
                 this.y += VELOCITY;
                 this.x += 0;
             }
         }
-
-
-        // Update hero's position based on the game state
-        switch (playGame.currentState) {
-            case GameState.WAITING:
-            case GameState.STRETCHING:
-            case GameState.TURNING:
-//                for (const platform of platforms) {
-//                    if (this.x + this.heroWidth >= platform.x + platform.platformWidth) {
-//                        this.x = platform.x + platform.platformWidth - this.heroWidth;
-//                        VELOCITY = 0;
-//                    }
-//                }
-                break;
-
-            case GameState.WALKING:
-
-                this.x += HERO_SPEED;
-                break;
-
-            default:
-                this.x += HERO_SPEED;
-        }
-
 
         this.y += VELOCITY;
         this.x += HERO_SPEED;
@@ -75,7 +46,7 @@ class Hero {
 
     // Draw the hero on the canvas
     draw() {
-        ctx.drawImage(this.image, this.x, this.y, this.heroWidth, this.heroHeight);
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
 
 
