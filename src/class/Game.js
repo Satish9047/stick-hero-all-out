@@ -65,6 +65,37 @@ class Game {
         }
         this.ninja.update(this.platforms, this.stick, this.currentPlatform);
 
+        //sliding the view
+        if (this.ninja.x > 500) {
+            this.platforms.forEach((platform) => {
+                platform.x -= HERO_SPEED;
+            });
+
+            this.stickArry.forEach((stick) => {
+                stick.x -= HERO_SPEED;
+            });
+        }
+
+        //remove the screen that touch left side of the screen
+        //this.platforms = this.platforms.filter((platform) => platform.x + platform.width > 0);
+
+        // generate new platforms on the right side
+//        while (this.platforms.length < 4) {
+//            const lastPlatform = this.platforms[this.platforms.length - 1];
+//            const platformWidth = getRandomNumber(50, 110);
+//            const newPlatform = new Platform(
+//                lastPlatform.x + lastPlatform.width + getRandomNumber(50, 250),
+//                canvasHeight - 200,
+//                platformWidth
+//                );
+//            this.platforms.push(newPlatform);
+//
+//            const stickX = newPlatform.x + newPlatform.width - STICK_WIDTH;
+//            const stickY = newPlatform.y;
+//            const newStick = new Stick(stickX, stickY);
+//            this.stickArry.push(newStick);
+//        }
+
 
 
 
