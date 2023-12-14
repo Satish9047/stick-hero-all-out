@@ -16,7 +16,7 @@ function getRandomNumber(min, max) {
 }
 
 function collisionDetectionWithStick(ninja, stick) {
-
+    if(!stick) return false
     return (
         ninja.x < stick.x + stick.height &&
         ninja.x + ninja.width < stick.x + stick.height &&

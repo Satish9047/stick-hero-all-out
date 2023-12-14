@@ -14,6 +14,7 @@ class Controller {
             if (playGame.currentState === GameState.WAITING) {
                 //console.log("mouse down event triggered", event.clientX, event.clientY);
                 this.stickStretch = true;
+                this.release = false;
                 playGame.currentState = GameState.STRETCHING;
                 console.log(playGame.currentState, "3rd");
             }

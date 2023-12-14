@@ -18,7 +18,7 @@ class Stick {
     }
 
     update() {
-            this.height += STRETCH_SPEED;
+        this.height += STRETCH_SPEED;
     }
 
     rotate() {

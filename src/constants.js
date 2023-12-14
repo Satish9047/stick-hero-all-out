@@ -10,7 +10,7 @@ const PLATFORM_HEIGHT = 200;
 const HERO_HEIGHT = 50;
 const HERO_WIDTH = 50;
 const HERO_COLOR = "red"
-const HERO_SPEED = 1;
+const HERO_SPEED = 3;
 
 
 //stick properties

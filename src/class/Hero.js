@@ -5,6 +5,7 @@ class Hero {
         this.y = y;
         this.width = heroWidth;
         this.height = heroHeight;
+        this.heroLife = 3;
         this.image = new Image();
         this.image.src = "./src/img/ninjaorange1.png";
     }
@@ -13,7 +14,9 @@ class Hero {
     update(platforms, stick, currentPlatform) {
         // Apply gravity when falling
         VELOCITY += GRAVITY;
+
         
+
         // Check collision with platforms
         for (const platform of platforms) {
             //console.log(collisionDetection(playGame.ninja, platform))
@@ -40,8 +43,40 @@ class Hero {
             }
         }
 
+        //console.log("Current state:", playGame.currentState)
+        //Update hero's position based on the game state
+        switch (playGame.currentState) {
+            case GameState.WAITING:
+                if(!currentPlatform) break;
+                this.x = currentPlatform.x + currentPlatform.width - this.width;
+                VELOCITY = 0;
+                break;
+                case GameState.STRETCHING:
+                    console.log(stick);
+                    stick?.update();
+                    break;
+                    case GameState.TURNING:
+                        stick?.rotate();
+
+                        //                for (const platform of platforms) {
+//                    if (this.x + this.heroWidth >= platform.x + platform.platformWidth) {
+//                        this.x = platform.x + platform.platformWidth - this.heroWidth;
+//                        VELOCITY = 0;
+//                    }
+//                }
+                break;
+
+                case GameState.WALKING:
+                    this.walk();
+                    break;
+
+                    default:
+                        //this.x += HERO_SPEED;
+        }
+
+
         this.y += VELOCITY;
-        this.x += HERO_SPEED;
+        // this.x += HERO_SPEED;
     }
 
     // Draw the hero on the canvas
@@ -49,30 +84,7 @@ class Hero {
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
 
-
-    moveTONextPlatform(stick, platform) {
-
-    }
-
-    increaseStickHeight() {
-
-    }
-
     walk() {
-        if (GameState.currentState === GameState.WALKING) {
-            this.x += HERO_SPEED;
-        }
-    }
-
-    jump() {
-
-    }
-
-    fly() {
-
-    }
-
-    life() {
-
+        this.x += HERO_SPEED;
     }
 }

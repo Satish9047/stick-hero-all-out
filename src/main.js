@@ -14,10 +14,11 @@ const playGame = new Game();
 
 //animation loop
 function animate(){
-    window.requestAnimationFrame(animate);
+
 
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     playGame.run();
+    window.requestAnimationFrame(animate);
 
 }
 
