@@ -18,6 +18,8 @@ class Stick {
     }
 
     update() {
+        stickStretchAudio.play()
+        stickStretchAudio.playbackRate = 1;
         this.height += STRETCH_SPEED;
     }
 

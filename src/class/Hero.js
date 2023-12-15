@@ -57,24 +57,15 @@ class Hero {
                     break;
                     case GameState.TURNING:
                         stick?.rotate();
-
-                        //                for (const platform of platforms) {
-//                    if (this.x + this.heroWidth >= platform.x + platform.platformWidth) {
-//                        this.x = platform.x + platform.platformWidth - this.heroWidth;
-//                        VELOCITY = 0;
-//                    }
-//                }
                 break;
 
                 case GameState.WALKING:
                     this.walk();
                     break;
 
-                    default:
-                        //this.x += HERO_SPEED;
+                default:
+                //this.x += HERO_SPEED;
         }
-
-
         this.y += VELOCITY;
         // this.x += HERO_SPEED;
     }
@@ -85,6 +76,7 @@ class Hero {
     }
 
     walk() {
-        this.x += HERO_SPEED;
+        ninjaRunAudio.play();
+        this.x += HERO_SPEED; 
     }
 }

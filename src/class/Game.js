@@ -24,7 +24,7 @@ class Game {
 
     // Generate platforms with random spacing and width using a loop
     let prevX = canvasWidth / 4;
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 8; i++) {
       const platformWidth = getRandomNumber(50, 110);
       const platform = new Platform(prevX, canvasHeight - 200, platformWidth);
       this.platforms.push(platform);
@@ -42,9 +42,6 @@ class Game {
     let heroY = canvasHeight - (PLATFORM_HEIGHT + HERO_HEIGHT);
     this.ninja = new Hero(heroX, heroY, HERO_WIDTH, HERO_HEIGHT, HERO_COLOR);
 
-    //stick
-
-    // this.stick = new Stick(stickX, stickY);
 
     // controller
     this.controller = new Controller();
@@ -105,25 +102,11 @@ class Game {
       });
     }
 
-    //remove the screen that touch left side of the screen
-    //this.platforms = this.platforms.filter((platform) => platform.x + platform.width > 0);
+    if(this.currentPlatform === GameState.WALKING){
+      
+    }
 
-    // generate new platforms on the right side
-    //        while (this.platforms.length < 4) {
-    //            const lastPlatform = this.platforms[this.platforms.length - 1];
-    //            const platformWidth = getRandomNumber(50, 110);
-    //            const newPlatform = new Platform(
-    //                lastPlatform.x + lastPlatform.width + getRandomNumber(50, 250),
-    //                canvasHeight - 200,
-    //                platformWidth
-    //                );
-    //            this.platforms.push(newPlatform);
-    //
-    //            const stickX = newPlatform.x + newPlatform.width - STICK_WIDTH;
-    //            const stickY = newPlatform.y;
-    //            const newStick = new Stick(stickX, stickY);
-    //            this.stickArry.push(newStick);
-    //        }
+  
 
     //stop the hero
     if (
@@ -132,10 +115,8 @@ class Game {
         this.currentPlatform.x + this.currentPlatform.width
     ) {
       this.currentState = GameState.WAITING;
-      //console.log(this.currentState, "2nd");
     }
 
-    //console.log(this.currentPlatform, "is the platform that hero is in!")
     //if mouse clicked the stick height increased
     if (this.controller.stickStretch) {
       this.currentState = GameState.STRETCHING;
@@ -167,40 +148,6 @@ class Game {
     this.draw();
   }
 
-//   restartGame() {
-//     // Reset game state
-//     this.currentState = GameState.WALKING;
-
-//     this.score = 0;
-
-//     // Clear existing platforms and sticks
-//     this.platforms = [];
-//     this.stickArry = [];
-//     this.stick = null;
-
-//     // Generate new platforms and sticks
-//     let prevX = canvasWidth / 4;
-//     for (let i = 0; i < 4; i++) {
-//       const platformWidth = getRandomNumber(50, 110);
-//       const platform = new Platform(prevX, canvasHeight - 200, platformWidth);
-//       this.platforms.push(platform);
-//       prevX += platformWidth + getRandomNumber(50, 250);
-
-//       const stickX = platform.x + platform.width - STICK_WIDTH;
-//       const stickY = platform.y;
-//       const stick = new Stick(stickX, stickY);
-//       this.stickArry.push(stick);
-//     }
-
-//     // Reset hero position
-//     let heroX = this.platforms[0].x + (this.platforms[0].width - HERO_WIDTH) / 2;
-//     let heroY = canvasHeight - (PLATFORM_HEIGHT + HERO_HEIGHT);
-//     this.ninja = new Hero(heroX, heroY);
-
-//     // Reset current platform and stick
-//     this.currentPlatform = null;
-//     this.stick = null;
-//   }
 
   /**
    * Get Current Platform
@@ -220,7 +167,6 @@ class Game {
         return i;
       }
     }
-
     //console.log("Hero is not on any platform");
     return -1;
   }
