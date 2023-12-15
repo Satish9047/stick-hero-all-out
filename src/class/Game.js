@@ -47,12 +47,20 @@ class Game {
     this.controller = new Controller();
   }
 
+  drawScore() {
+    ctx.fillStyle = "#161A30"; 
+    ctx.font = "26px Arial";
+    ctx.fillText(`Score: ${this.score}`, canvasWidth - 120, 30);
+    
+}
+
   draw() {
     this.ninja.draw();
     this.platforms.forEach((platform) => {
       platform.draw();
     });
     this.stick?.draw();
+    this.drawScore();
   }
 
   run() {
