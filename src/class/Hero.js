@@ -21,13 +21,18 @@ class Hero {
         for (const platform of platforms) {
             //console.log(collisionDetection(playGame.ninja, platform))
             if (collisionDetection(playGame.ninja, platform)) {
-                this.y = platform.y - this.height;
-                VELOCITY = 0;
+                if(this.y + this.height > platform.y){
+                    this.y += VELOCITY
+                }else{
+                    this.y = platform.y - this.height;
+                    VELOCITY = 0;
+                }
             }
         }
 
         // Check collision with the stick
         if (collisionDetectionWithStick(playGame.ninja, stick)) {
+            
             this.y = stick.y - this.height;
             VELOCITY = 0;
         }
@@ -48,15 +53,32 @@ class Hero {
         switch (playGame.currentState) {
             case GameState.WAITING:
                 if(!currentPlatform) break;
-                this.x = currentPlatform.x + currentPlatform.width - this.width;
-                VELOCITY = 0;
-                break;
+                    this.x = currentPlatform.x + currentPlatform.width - this.width;
+                    VELOCITY = 0;
+                    break;
                 case GameState.STRETCHING:
-                    console.log(stick);
+                    //console.log(stick);
                     stick?.update();
                     break;
-                    case GameState.TURNING:
+                case GameState.TURNING:
                         stick?.rotate();
+                        if( stick?.rotation === 90){
+                            const nextPlatformIndex = playGame.getCurrPlatformIndex() + 1
+                            const nextPlatform = platforms[nextPlatformIndex];
+                            // console.log("hello", nextPlatform);
+                            const isLandingSuccessful =
+                                stick &&
+                                stick.rotation === 90 &&
+                                stick.x + stick.height >= nextPlatform.x &&
+                                stick.x + stick.height <= nextPlatform.x + nextPlatform.width;
+
+                            if (isLandingSuccessful) {
+                                playGame.score++; // Increase the score
+                                console.log(playGame.score);
+                            } else {
+                                this.restartGame;
+                            }
+                        }
                 break;
 
                 case GameState.WALKING:

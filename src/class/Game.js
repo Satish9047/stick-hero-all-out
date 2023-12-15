@@ -56,6 +56,8 @@ class Game {
   }
 
   run() {
+
+    console.log("current state", this.currentState)
     const currPlatformIndex = this.getCurrPlatformIndex();
     //console.log(currPlatformIndex, "current platform index")
     if (currPlatformIndex !== -1) {
@@ -65,31 +67,30 @@ class Game {
     this.ninja.update(this.platforms, this.stick, this.currentPlatform);
 
     // Check for successful landing and collision with the next platform
-    if (
-      this.currentState === GameState.WALKING &&
-      this.ninja.x + this.ninja.width >
-        this.currentPlatform.x + this.currentPlatform.width
-    ) {
-      // Stick successfully landed on the next platform
-      const nextPlatformIndex = (currPlatformIndex + 1) % this.platforms.length; // Assuming a circular arrangement of platforms
+    // if (
+    //   this.currentState === GameState.WALKING &&
+      
+    // ) {
+    //   // Stick successfully landed on the next platform
+    //   const nextPlatformIndex = currPlatformIndex + 1
 
-      const nextPlatform = this.platforms[nextPlatformIndex];
-      const isLandingSuccessful =
-        this.stick &&
-        this.stick.rotation === 90 &&
-        this.stick.x >= nextPlatform.x &&
-        this.stick.x + this.stick.height <= nextPlatform.x + nextPlatform.width;
+    //   const nextPlatform = this.platforms[nextPlatformIndex];
+    //   const isLandingSuccessful =
+    //     this.stick &&
+    //     this.stick.rotation === 90 &&
+    //     this.stick.x >= nextPlatform.x &&
+    //     this.stick.x + this.stick.height <= nextPlatform.x + nextPlatform.width;
 
-      if (isLandingSuccessful) {
-        this.score++; // Increase the score
-        console.log(this.score);
-      } else {
-        this.restartGame;
-      }
+    //   if (isLandingSuccessful) {
+    //     this.score++; // Increase the score
+    //     console.log(this.score);
+    //   } else {
+    //     this.restartGame;
+    //   }
 
-      // Reset game state after landing
-      this.currentState = GameState.WAITING;
-    }
+    //   // Reset game state after landing
+    //   this.currentState = GameState.WAITING;
+    // }
 
     //sliding the view
     if (this.ninja.x > 500) {
@@ -102,9 +103,28 @@ class Game {
       });
     }
 
-    if(this.currentPlatform === GameState.WALKING){
+    if (
+      this.currentPlatform &&
+      this.ninja.x + this.ninja.width > this.currentPlatform.x + this.currentPlatform.width &&
+      this.currentState === GameState.TURNING 
       
-    }
+  ) {
+    console.log("hello");
+      // Stick successfully landed on the next platform
+      const nextPlatformIndex = currPlatformIndex + 1;
+      const nextPlatform = this.platforms[nextPlatformIndex];
+      const isLandingSuccessful =
+          this.stick &&
+          this.stick.rotation === 90 &&
+          this.stick.x + this.stick.height >= nextPlatform.x &&
+          this.stick.x + this.stick.height <= nextPlatform.x + nextPlatform.width;
+  
+      if (isLandingSuccessful) {
+          this.score++; // Increase the score
+          console.log(this.score);
+      }
+  
+  }
 
   
 
@@ -142,6 +162,7 @@ class Game {
 
     if (this.ninja.y > canvasHeight) {
         console.log("restart the game")
+        location.reload()
       //this.restartGame();
     }
 
