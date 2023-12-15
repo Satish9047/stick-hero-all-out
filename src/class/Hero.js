@@ -14,7 +14,6 @@ class Hero {
     update(platforms, stick, currentPlatform) {
         // Apply gravity when falling
         VELOCITY += GRAVITY;
-
         
 
         // Check collision with platforms
@@ -22,7 +21,7 @@ class Hero {
             //console.log(collisionDetection(playGame.ninja, platform))
             if (collisionDetection(playGame.ninja, platform)) {
                 if(this.y + this.height > platform.y){
-                    this.y += VELOCITY
+                    fall();  
                 }else{
                     this.y = platform.y - this.height;
                     VELOCITY = 0;
@@ -73,10 +72,9 @@ class Hero {
                                 stick.x + stick.height <= nextPlatform.x + nextPlatform.width;
 
                             if (isLandingSuccessful) {
+                                stickLandedAudio.play();
                                 playGame.score++; // Increase the score
                                 console.log(playGame.score);
-                            } else {
-                                this.restartGame;
                             }
                         }
                 break;
@@ -100,5 +98,9 @@ class Hero {
     walk() {
         ninjaRunAudio.play();
         this.x += HERO_SPEED; 
+    }
+    fall(){
+        fallAudio.play();
+        this.y += VELOCITY
     }
 }

@@ -25,10 +25,10 @@ class Game {
     // Generate platforms with random spacing and width using a loop
     let prevX = canvasWidth / 4;
     for (let i = 0; i < 8; i++) {
-      const platformWidth = getRandomNumber(50, 110);
+      const platformWidth = getRandomNumber(70, 110);
       const platform = new Platform(prevX, canvasHeight - 200, platformWidth);
       this.platforms.push(platform);
-      prevX += platformWidth + getRandomNumber(50, 250);
+      prevX += platformWidth + getRandomNumber(70, 250);
 
       const stickX = platform.x + platform.width - STICK_WIDTH;
       const stickY = platform.y;
@@ -66,34 +66,9 @@ class Game {
     }
     this.ninja.update(this.platforms, this.stick, this.currentPlatform);
 
-    // Check for successful landing and collision with the next platform
-    // if (
-    //   this.currentState === GameState.WALKING &&
-      
-    // ) {
-    //   // Stick successfully landed on the next platform
-    //   const nextPlatformIndex = currPlatformIndex + 1
-
-    //   const nextPlatform = this.platforms[nextPlatformIndex];
-    //   const isLandingSuccessful =
-    //     this.stick &&
-    //     this.stick.rotation === 90 &&
-    //     this.stick.x >= nextPlatform.x &&
-    //     this.stick.x + this.stick.height <= nextPlatform.x + nextPlatform.width;
-
-    //   if (isLandingSuccessful) {
-    //     this.score++; // Increase the score
-    //     console.log(this.score);
-    //   } else {
-    //     this.restartGame;
-    //   }
-
-    //   // Reset game state after landing
-    //   this.currentState = GameState.WAITING;
-    // }
-
+   
     //sliding the view
-    if (this.ninja.x > 500) {
+    if (this.ninja.x > 300) {
       this.platforms.forEach((platform) => {
         platform.x -= HERO_SPEED;
       });
@@ -103,28 +78,6 @@ class Game {
       });
     }
 
-    if (
-      this.currentPlatform &&
-      this.ninja.x + this.ninja.width > this.currentPlatform.x + this.currentPlatform.width &&
-      this.currentState === GameState.TURNING 
-      
-  ) {
-    console.log("hello");
-      // Stick successfully landed on the next platform
-      const nextPlatformIndex = currPlatformIndex + 1;
-      const nextPlatform = this.platforms[nextPlatformIndex];
-      const isLandingSuccessful =
-          this.stick &&
-          this.stick.rotation === 90 &&
-          this.stick.x + this.stick.height >= nextPlatform.x &&
-          this.stick.x + this.stick.height <= nextPlatform.x + nextPlatform.width;
-  
-      if (isLandingSuccessful) {
-          this.score++; // Increase the score
-          console.log(this.score);
-      }
-  
-  }
 
   
 
@@ -154,6 +107,33 @@ class Game {
       this.ninja.x < this.stick.x + this.stick.height
     ) {
       this.currentState = GameState.WALKING;
+    }
+    
+   
+   // Remove platforms and sticks that have moved off the left side of the canvas
+    this.platforms = this.platforms.filter((platform) => platform.x + platform.width > 0);
+    this.stickArry = this.stickArry.filter((stick) => stick.x + stick.width > 0);
+
+
+      // Generate new platforms and sticks when the number of existing platforms is less than 6
+      while (this.platforms.length < 6) {
+        const lastPlatform = this.platforms[this.platforms.length - 1];
+        const platformWidth = getRandomNumber(50, 110);
+        const newPlatform = new Platform(
+            lastPlatform.x + lastPlatform.width + getRandomNumber(70, 250),
+            canvasHeight - 200,
+            platformWidth
+        );
+        this.platforms.push(newPlatform);
+
+        const stickX = newPlatform.x + newPlatform.width - STICK_WIDTH;
+        const stickY = newPlatform.y;
+        const newStick = new Stick(stickX, stickY);
+        this.stickArry.push(newStick);
+    }
+
+    if(this.platforms.length < 6){
+
     }
 
     if (this.score > this.higestScore) {
