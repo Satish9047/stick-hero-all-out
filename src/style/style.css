@@ -5,13 +5,20 @@
 }
 
 body{
-    position: relative;
     background-image: url("../img/bg.jpg");
 }
 
-.canvas {
-    display: block;
+
+.play-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+/* .canvas{
+    display: none;
+}
+ */
 
 .menu {
     position: absolute;
@@ -19,7 +26,6 @@ body{
     top: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    display: block;
 }
 
 .play-btn{

@@ -11,8 +11,10 @@ class Game {
   constructor() {
     this.score = 0;
     this.higestScore = window.localStorage.getItem("higestScore") || 0;
+    higestScore.append(this.higestScore);
 
     this.currentPlatform = null;
+    this.nextPlatform = null;
     // game state
     this.currentState = GameState.WALKING;
     //console.log(this.currentState, "1st")
@@ -20,6 +22,7 @@ class Game {
     // platform
     this.platforms = [];
     this.stickArry = [];
+    this.capsuleArry = [];
     this.stick = null;
 
     // Generate platforms with random spacing and width using a loop
@@ -42,17 +45,18 @@ class Game {
     let heroY = canvasHeight - (PLATFORM_HEIGHT + HERO_HEIGHT);
     this.ninja = new Hero(heroX, heroY, HERO_WIDTH, HERO_HEIGHT, HERO_COLOR);
 
-
     // controller
     this.controller = new Controller();
+
+    //capsule
+    this.capsule = new Capsule(200, 200, 20);
   }
 
   drawScore() {
-    ctx.fillStyle = "#161A30"; 
+    ctx.fillStyle = "#161A30";
     ctx.font = "26px Arial";
     ctx.fillText(`Score: ${this.score}`, canvasWidth - 120, 30);
-    
-}
+  }
 
   draw() {
     this.ninja.draw();
@@ -61,12 +65,19 @@ class Game {
     });
     this.stick?.draw();
     this.drawScore();
+  
+    // Iterate over each capsule and call the draw method
+    this.capsuleArry.forEach((capsule) => {
+      capsule.draw();
+    });
   }
 
   run() {
-
-    console.log("current state", this.currentState)
+    console.log("current state", this.currentState);
     const currPlatformIndex = this.getCurrPlatformIndex();
+    const nextPlatformIndex = currPlatformIndex + 1;
+    this.nextPlatform = this.platforms[nextPlatformIndex];
+
     //console.log(currPlatformIndex, "current platform index")
     if (currPlatformIndex !== -1) {
       this.stick = this.stickArry[currPlatformIndex];
@@ -74,20 +85,18 @@ class Game {
     }
     this.ninja.update(this.platforms, this.stick, this.currentPlatform);
 
-   
     //sliding the view
-    if (this.ninja.x > 300) {
+    if (this.ninja.x > 400) {
       this.platforms.forEach((platform) => {
-        platform.x -= HERO_SPEED;
+        platform.x -= 8;
       });
 
       this.stickArry.forEach((stick) => {
-        stick.x -= HERO_SPEED;
+        stick.x -= 8;
       });
+
+      this.capsuleArry= [];
     }
-
-
-  
 
     //stop the hero
     if (
@@ -116,32 +125,49 @@ class Game {
     ) {
       this.currentState = GameState.WALKING;
     }
-    
-   
-   // Remove platforms and sticks that have moved off the left side of the canvas
-    this.platforms = this.platforms.filter((platform) => platform.x + platform.width > 0);
-    this.stickArry = this.stickArry.filter((stick) => stick.x + stick.width > 0);
 
+    // Remove platforms and sticks that have moved off the left side of the canvas
+    this.platforms = this.platforms.filter(
+      (platform) => platform.x + platform.width > 0
+    );
+    this.stickArry = this.stickArry.filter(
+      (stick) => stick.x + stick.width > 0
+    );
 
-      // Generate new platforms and sticks when the number of existing platforms is less than 6
-      while (this.platforms.length < 6) {
-        const lastPlatform = this.platforms[this.platforms.length - 1];
-        const platformWidth = getRandomNumber(50, 110);
-        const newPlatform = new Platform(
-            lastPlatform.x + lastPlatform.width + getRandomNumber(70, 250),
-            canvasHeight - 200,
-            platformWidth
-        );
-        this.platforms.push(newPlatform);
+    // this.capsuleArry = this.capsuleArry.filter(
+    //   (capsule) => capsule.x + capsule.radious > 0
+    // );
 
-        const stickX = newPlatform.x + newPlatform.width - STICK_WIDTH;
-        const stickY = newPlatform.y;
-        const newStick = new Stick(stickX, stickY);
-        this.stickArry.push(newStick);
+    // Generate new platforms and sticks when the number of existing platforms is less than 6
+    while (this.platforms.length < 6) {
+      const lastPlatform = this.platforms[this.platforms.length - 1];
+      const platformWidth = getRandomNumber(50, 110);
+      const newPlatform = new Platform(
+        lastPlatform.x + lastPlatform.width + getRandomNumber(70, 250),
+        canvasHeight - 200,
+        platformWidth
+      );
+      this.platforms.push(newPlatform);
+
+      const stickX = newPlatform.x + newPlatform.width - STICK_WIDTH;
+      const stickY = newPlatform.y;
+      const newStick = new Stick(stickX, stickY);
+      this.stickArry.push(newStick);
     }
 
-    if(this.platforms.length < 6){
-
+    // Generate capsules
+    if (this.currentState === GameState.WAITING && this.score % 2 === 0 && this.score !== 0 && this.capsuleArry.length === 0 ) {
+      // Adjust the probability as needed
+      const capsuleX = getRandomNumber(canvasWidth / 2, canvasWidth / 1.2);
+      const capsuleY = getRandomNumber(canvasHeight -300, canvasHeight/2);
+      const capsuleRadius = 20;
+  
+      const newCapsule = new Capsule(
+        capsuleX,
+        capsuleY,
+        capsuleRadius
+      );
+      this.capsuleArry.push(newCapsule);
     }
 
     if (this.score > this.higestScore) {
@@ -149,14 +175,13 @@ class Game {
     }
 
     if (this.ninja.y > canvasHeight) {
-        console.log("restart the game")
-        location.reload()
+      console.log("restart the game");
+      location.reload();
       //this.restartGame();
     }
 
     this.draw();
   }
-
 
   /**
    * Get Current Platform
