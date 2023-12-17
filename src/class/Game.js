@@ -65,7 +65,7 @@ class Game {
     });
     this.stick?.draw();
     this.drawScore();
-  
+
     // Iterate over each capsule and call the draw method
     this.capsuleArry.forEach((capsule) => {
       capsule.draw();
@@ -95,7 +95,7 @@ class Game {
         stick.x -= 8;
       });
 
-      this.capsuleArry= [];
+      this.capsuleArry = [];
     }
 
     //stop the hero
@@ -134,7 +134,6 @@ class Game {
       (stick) => stick.x + stick.width > 0
     );
 
-  
     // Generate new platforms and sticks when the number of existing platforms is less than 6
     while (this.platforms.length < 6) {
       const lastPlatform = this.platforms[this.platforms.length - 1];
@@ -153,40 +152,27 @@ class Game {
     }
 
     // Generate capsules
-    if (this.currentState === GameState.WAITING && this.score % 2 === 0 && this.score !== 0 && this.capsuleArry.length === 0 ) {
+    if (
+      this.currentState === GameState.WAITING &&
+      this.score % 2 === 0 &&
+      this.score !== 0 &&
+      this.capsuleArry.length === 0
+    ) {
       // Adjust the probability as needed
       const capsuleX = getRandomNumber(canvasWidth / 2, canvasWidth / 1.2);
-      const capsuleY = getRandomNumber(canvasHeight -300, canvasHeight/2);
+      const capsuleY = getRandomNumber(canvasHeight - 300, canvasHeight / 2);
       const capsuleRadius = 20;
-  
-      const newCapsule = new Capsule(
-        capsuleX,
-        capsuleY,
-        capsuleRadius
-      );
+
+      const newCapsule = new Capsule(capsuleX, capsuleY, capsuleRadius);
       this.capsuleArry.push(newCapsule);
     }
 
-    // Iterate over each capsule and check for collision
-  this.capsuleArry.forEach((capsule) => {
-    capsule.update(); // Add any update logic for the capsule
-
-    // Check for collision between stick and capsule
-    if (
-      this.stick  &&
-      // this.stick.rotation === 90 &&
-      checkCollision(this.stick, capsule)
-    ) {
-
-      console.log("collision detected")
-      // Handle collision (e.g., increase score, remove capsule, etc.)
-      this.score += 5;
-      //this.capsuleArry = []; // Remove the collided capsule
-    }
-  });
-
-
-
+    // Iterating over each capsule and call the draw and update methods
+    this.capsuleArry.forEach((capsule) => {
+      capsule.draw();
+      // Passing the stick for collision detection
+      capsule.update(this.stick); 
+    });
 
     //saving the higest score in the local storage
     if (this.score > this.higestScore) {
@@ -195,7 +181,7 @@ class Game {
 
     if (this.ninja.y > canvasHeight) {
       console.log("restart the game");
-      location.reload();
+      //location.reload();
       //this.restartGame();
     }
 
@@ -224,28 +210,24 @@ class Game {
     return -1;
   }
 
+  //   // Check for collision between stick and capsule
+  // checkCollision(stick, capsule) {
+  //   // Find the closest point on the stick's rectangle to the capsule's center
+  //   let closestX = Math.max(
+  //     stick.x,
+  //     Math.min(capsule.x, stick.x + stick.height)
+  //   );
+  //   let closestY = Math.max(
+  //     stick.y,
+  //     Math.min(capsule.y, stick.y + stick.height)
+  //   );
 
+  //   // Calculate the distance between the closest point and the capsule's center
+  //   let distanceX = capsule.x - closestX;
+  //   let distanceY = capsule.y - closestY;
+  //   let distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
-//   // Check for collision between stick and capsule
-// checkCollision(stick, capsule) {
-//   // Find the closest point on the stick's rectangle to the capsule's center
-//   let closestX = Math.max(
-//     stick.x,
-//     Math.min(capsule.x, stick.x + stick.height)
-//   );
-//   let closestY = Math.max(
-//     stick.y,
-//     Math.min(capsule.y, stick.y + stick.height)
-//   );
-
-//   // Calculate the distance between the closest point and the capsule's center
-//   let distanceX = capsule.x - closestX;
-//   let distanceY = capsule.y - closestY;
-//   let distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
-//   // Check if the distance is less than or equal to the sum of the capsule's radius and half of the stick's width
-//   return distance <= capsule.radius + stick.height / 2;
-// }
+  //   // Check if the distance is less than or equal to the sum of the capsule's radius and half of the stick's width
+  //   return distance <= capsule.radius + stick.height / 2;
+  // }
 }
-
-
