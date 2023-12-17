@@ -161,9 +161,15 @@ class Game {
       // Adjust the probability as needed
       const capsuleX = getRandomNumber(canvasWidth / 2, canvasWidth / 1.2);
       const capsuleY = getRandomNumber(canvasHeight - 300, canvasHeight / 2);
-      const capsuleRadius = 20;
+      const capsuleRadius = getRandomNumber(12, 35);
 
-      const newCapsule = new Capsule(capsuleX, capsuleY, capsuleRadius);
+      const capsuleTypes = ["jump", "score", "fly"];
+      //selecting random capsuletype
+      const randomType = capsuleTypes[Math.floor(Math.random() * capsuleTypes.length)];
+
+
+
+      const newCapsule = new Capsule(capsuleX, capsuleY, capsuleRadius, randomType);
       this.capsuleArry.push(newCapsule);
     }
 
