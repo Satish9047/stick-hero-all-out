@@ -1,10 +1,39 @@
-*{
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
 
-.canvas{
-   background-image: url("../img/bg3.jpg");
+body{
+    background-image: url("../img/bg.jpg");
+}
 
+
+.play-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .canvas{
+    display: none;
+}
+ */
+
+.menu {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.play-btn{
+    text-decoration: none;
+    background-color: #9A031E;
+    color: #fff;
+    font-size: 32px;
+    padding: 50px 40px;
+    border: none;
+    border-radius: 50%;
 }
