@@ -8,6 +8,7 @@ class Hero {
     this.heroLife = 3;
     this.image = new Image();
     this.image.src = "./src/img/ninjaorange1.png";
+    this.life = 3;
   }
 
   // Update method
@@ -49,12 +50,11 @@ class Hero {
     switch (playGame.currentState) {
       case GameState.WAITING:
         if (!currentPlatform) break;
-        this.x = currentPlatform.x + currentPlatform.width - this.width-stick.width;
+        this.x = currentPlatform.x + currentPlatform.width - this.width;
         VELOCITY = 0;
         break;
       case GameState.STRETCHING:
         //console.log(stick);
-        this.x += 0;
         stick?.update();
         break;
       case GameState.TURNING:

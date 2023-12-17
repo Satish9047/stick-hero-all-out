@@ -210,11 +210,11 @@ class Game {
     }
     
 
-    if (this.ninja.y > canvasHeight) {
-      console.log("restart the game");
-      //location.reload();
-      //this.restartGame();
-    }
+    // if (this.ninja.y > canvasHeight) {
+    //   console.log("restart the game");
+    //   //location.reload();
+    //   //this.restartGame();
+    // }
 
     this.draw();
   }
