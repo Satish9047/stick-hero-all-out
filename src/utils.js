@@ -46,3 +46,48 @@ function collisionDetectionWithStick(ninja, stick) {
         ninja.y + ninja.height >= stick.y
         );
 }
+
+
+/**
+ * collision detection between stick and the capsule when rotating
+ * 
+ * @param {object} stick get stick properties
+ * @param {object} capsule get capsule properties
+ * @returns boolean
+ */
+// Check for collision between stick and capsule
+function checkCollision(stick, capsule) {
+    // Find the closest point on the stick's rotated rectangle to the capsule's center
+    let stickTopLeftX = stick.x;
+    let stickTopLeftY = stick.y - stick.height;
+    let stickBottomRightX = stick.x + stick.width;
+    let stickBottomRightY = stick.y;
+
+    // Rotate the capsule point back to the stick's coordinate
+    let rotatedCapsuleX =
+        Math.cos((Math.PI / 180) * -stick.rotation) * (capsule.x - stick.x) -
+        Math.sin((Math.PI / 180) * -stick.rotation) * (capsule.y - stick.y) +
+        stick.x;
+    let rotatedCapsuleY =
+        Math.sin((Math.PI / 180) * -stick.rotation) * (capsule.x - stick.x) +
+        Math.cos((Math.PI / 180) * -stick.rotation) * (capsule.y - stick.y) +
+        stick.y;
+
+    // Finding the closest point on the stick's rectangle to the rotated capsule point
+    let closestX = Math.max(
+        stickTopLeftX,
+        Math.min(rotatedCapsuleX, stickBottomRightX)
+    );
+    let closestY = Math.max(
+        stickTopLeftY,
+        Math.min(rotatedCapsuleY, stickBottomRightY)
+    );
+
+    // Calculate the distance between the closest point and the rotated capsule point
+    let distanceX = rotatedCapsuleX - closestX;
+    let distanceY = rotatedCapsuleY - closestY;
+    let distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+    // Check if the distance is less than or equal to the sum of the capsule's radius and half of the stick's width
+    return distance <= capsule.radius + stick.width / 2;
+}

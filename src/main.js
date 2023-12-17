@@ -15,6 +15,8 @@ let canvasHeight=canvas.height;
 //creating instance of the Game
 const playGame = new Game();
 
+
+
 //animation loop
 function animate(){
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);

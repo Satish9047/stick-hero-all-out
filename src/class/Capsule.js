@@ -20,22 +20,9 @@ class Capsule{
     }
 
     update(){
-        
+       
     }
 
-    JumpCapsule(){
-        
-    }
-    
-    ScoreCapsule(){
-        
-    }
-    
-    LifeCapsule(){
-        
-    }
-    FlyCapsule(){
-        
-    }
+ 
     
 }

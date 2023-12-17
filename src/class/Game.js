@@ -134,10 +134,7 @@ class Game {
       (stick) => stick.x + stick.width > 0
     );
 
-    // this.capsuleArry = this.capsuleArry.filter(
-    //   (capsule) => capsule.x + capsule.radious > 0
-    // );
-
+  
     // Generate new platforms and sticks when the number of existing platforms is less than 6
     while (this.platforms.length < 6) {
       const lastPlatform = this.platforms[this.platforms.length - 1];
@@ -170,6 +167,28 @@ class Game {
       this.capsuleArry.push(newCapsule);
     }
 
+    // Iterate over each capsule and check for collision
+  this.capsuleArry.forEach((capsule) => {
+    capsule.update(); // Add any update logic for the capsule
+
+    // Check for collision between stick and capsule
+    if (
+      this.stick  &&
+      // this.stick.rotation === 90 &&
+      checkCollision(this.stick, capsule)
+    ) {
+
+      console.log("collision detected")
+      // Handle collision (e.g., increase score, remove capsule, etc.)
+      this.score += 5;
+      //this.capsuleArry = []; // Remove the collided capsule
+    }
+  });
+
+
+
+
+    //saving the higest score in the local storage
     if (this.score > this.higestScore) {
       window.localStorage.setItem("higestScore", this.score);
     }
@@ -204,4 +223,29 @@ class Game {
     //console.log("Hero is not on any platform");
     return -1;
   }
+
+
+
+//   // Check for collision between stick and capsule
+// checkCollision(stick, capsule) {
+//   // Find the closest point on the stick's rectangle to the capsule's center
+//   let closestX = Math.max(
+//     stick.x,
+//     Math.min(capsule.x, stick.x + stick.height)
+//   );
+//   let closestY = Math.max(
+//     stick.y,
+//     Math.min(capsule.y, stick.y + stick.height)
+//   );
+
+//   // Calculate the distance between the closest point and the capsule's center
+//   let distanceX = capsule.x - closestX;
+//   let distanceY = capsule.y - closestY;
+//   let distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+//   // Check if the distance is less than or equal to the sum of the capsule's radius and half of the stick's width
+//   return distance <= capsule.radius + stick.height / 2;
+// }
 }
+
+
