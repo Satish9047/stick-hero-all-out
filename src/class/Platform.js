@@ -7,13 +7,13 @@ class Platform {
     this.color = "black";
   }
   update() {
-    if(playGame.level === 2){
+    if(playGame.currentLevel === 2){
       this.width = getRandomNumber(65, 95);
     }
-    if(playGame.level === 3){
+    if(playGame.currentLevel === 3){
       this.width = getRandomNumber(65, 80);
     }
-    if(playGame.level === 4){
+    if(playGame.currentLevel === 4){
       this.width = getRandomNumber(60, 75);
     }
 

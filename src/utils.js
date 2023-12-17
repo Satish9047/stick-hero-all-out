@@ -51,7 +51,7 @@ function collisionDetectionWithStick(ninja, stick) {
  * @param {object} capsule get capsule properties
  * @returns boolean
  */
-// Check for collision between stick and capsule
+
 function checkCollision(stick, capsule) {
   // Find the closest point on the stick's rotated rectangle to the capsule's center
   let stickTopLeftX = stick.x;

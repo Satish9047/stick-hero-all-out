@@ -34,7 +34,6 @@ class Hero {
       this.y = stick.y - this.height;
       VELOCITY = 0;
     }
-    console.log("collision is happening with stick",collisionDetectionWithStick(playGame.ninja, stick))
 
     //fall condition
     for (const platform of platforms) {
@@ -50,17 +49,20 @@ class Hero {
     switch (playGame.currentState) {
       case GameState.WAITING:
         if (!currentPlatform) break;
-        this.x = currentPlatform.x + currentPlatform.width - this.width;
+        this.x =
+          currentPlatform.x + currentPlatform.width - this.width - stick.width;
         VELOCITY = 0;
         break;
       case GameState.STRETCHING:
         //console.log(stick);
+        this.x += 0;
         stick?.update();
         break;
       case GameState.TURNING:
         stick?.rotate();
         if (stick?.rotation === 90) {
-          const nextPlatformIndex = getCurrPlatformIndex(playGame.ninja, platforms) + 1;
+          const nextPlatformIndex =
+            getCurrPlatformIndex(playGame.ninja, platforms) + 1;
           const nextPlatform = platforms[nextPlatformIndex];
           // console.log("hello", nextPlatform);
           const isLandingSuccessful =
@@ -100,5 +102,12 @@ class Hero {
   fall() {
     fallAudio.play();
     this.y += VELOCITY;
+  }
+
+  respawn(nextPlatform) {
+    console.log(nextPlatform);
+    this.y = nextPlatform.y - this.height;
+    this.x = nextPlatform.x + nextPlatform.width - this.width - playGame.stick.width;
+    VELOCITY = 0;
   }
 }

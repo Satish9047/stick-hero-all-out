@@ -11,7 +11,8 @@ class Game {
   constructor() {
     this.score = 0;
     this.higestScore = window.localStorage.getItem("higestScore") || 0;
-    higestScore.append(this.higestScore);
+    //higestScore.append(this.higestScore);
+
     this.currentLevel = 1;
 
     this.currentPlatform = null;
@@ -29,10 +30,8 @@ class Game {
     // Generate platforms with random spacing and width using a loop
     let prevX = canvasWidth / 4;
     for (let i = 0; i < 8; i++) {
-  
       const platform = new Platform(prevX, canvasHeight - 200);
       this.platforms.push(platform);
-      
 
       const stickX = platform.x + platform.width - STICK_WIDTH;
       const stickY = platform.y;
@@ -60,6 +59,12 @@ class Game {
     ctx.fillText(`Score: ${this.score}`, canvasWidth - 120, 30);
   }
 
+  drawLife() {
+    ctx.fillStyle = "#161A30";
+    ctx.font = "26px Arial";
+    ctx.fillText(`Life: ${playGame.ninja.life}`, 60, 30);
+  }
+
   draw() {
     this.ninja.draw();
     this.platforms.forEach((platform) => {
@@ -67,6 +72,7 @@ class Game {
     });
     this.stick?.draw();
     this.drawScore();
+    this.drawLife();
 
     // Iterate over each capsule and call the draw method
     this.capsuleArry.forEach((capsule) => {
@@ -75,10 +81,13 @@ class Game {
   }
 
   run() {
+    //console.log("life",this.ninja.life);
     //console.log("current state", this.currentState);
     const currPlatformIndex = getCurrPlatformIndex(this.ninja, this.platforms);
     const nextPlatformIndex = currPlatformIndex + 1;
-    this.nextPlatform = this.platforms[nextPlatformIndex];
+    const nextPlatform = this.platforms[nextPlatformIndex];
+
+    console.log("current level", this.currentLevel);
 
     //console.log(currPlatformIndex, "current platform index")
     if (currPlatformIndex !== -1) {
@@ -96,8 +105,9 @@ class Game {
       this.stickArry.forEach((stick) => {
         stick.x -= 8;
       });
-
-      this.capsuleArry = [];
+      
+      this.capsuleArry =[];
+      
     }
 
     // stop the hero
@@ -106,10 +116,8 @@ class Game {
       this.ninja.x + this.ninja.width >=
         this.currentPlatform.x + this.currentPlatform.width
     ) {
-      
-        this.currentState = GameState.WAITING;
-        console.log("the stick is perfect");
-      
+      this.currentState = GameState.WAITING;
+      //console.log("the stick is perfect");
     }
 
     //if mouse clicked the stick height increased
@@ -156,33 +164,36 @@ class Game {
       this.stickArry.push(newStick);
     }
 
-    // Generate capsules
-    if (
-      this.currentState === GameState.WAITING &&
-      this.score % 2 === 0 &&
-      this.score !== 0 &&
-      this.capsuleArry.length === 0 &&
-      this.currentPlatform.x + this.currentPlatform.width ===
-        this.ninja.x + this.ninja.width
-    ) {
-      // Adjust the probability as needed
-      const capsuleX = getRandomNumber(canvasWidth / 3, canvasWidth / 1.5);
-      const capsuleY = getRandomNumber(canvasHeight - 300, canvasHeight / 2);
-      const capsuleRadius = getRandomNumber(12, 35);
+// Generate capsules
+if (
+  this.currentState === GameState.WAITING &&
+  this.score % 2 === 0 &&
+  this.score!== 0 &&
+  this.capsuleArry.length === 0 &&
+  this.ninja.x + this.ninja.width === this.currentPlatform.x &&
+  this.ninja.x <= this.currentPlatform.x + this.currentPlatform.width
+) {
+  console.log("capsule generated");
+  // Adjust the probability as needed
+  const capsuleX = getRandomNumber(canvasWidth / 3, canvasWidth / 1.5);
+  const capsuleY = getRandomNumber(canvasHeight - 300, canvasHeight / 2);
+  const capsuleRadius = getRandomNumber(12, 35);
 
-      const capsuleTypes = ["jump", "score", "fly", "life"];
-      //selecting random capsuletype
-      const randomType =
-        capsuleTypes[Math.floor(Math.random() * capsuleTypes.length)];
+  const capsuleTypes = ["jump", "score", "fly", "life"];
+  //selecting random capsuletype
+  const randomType =
+    capsuleTypes[Math.floor(Math.random() * capsuleTypes.length)];
 
-      const newCapsule = new Capsule(
-        capsuleX,
-        capsuleY,
-        capsuleRadius,
-        randomType
-      );
-      this.capsuleArry.push(newCapsule);
-    }
+  const newCapsule = new Capsule(
+    capsuleX,
+    capsuleY,
+    capsuleRadius,
+    randomType
+  );
+  this.capsuleArry.push(newCapsule);
+}
+
+
 
     // Iterating over each capsule and call the draw and update methods
     this.capsuleArry.forEach((capsule) => {
@@ -197,24 +208,31 @@ class Game {
     }
 
     //level up controller
-    if(this.score <=10 ){
-      this.level = 2;
+    if (this.score >= 10) {
+      this.currentLevel = 2;
     }
-    
-    if(this.score <=20 ){
-      this.level = 3;
-    }
-    
-    if(this.score <=30 ){
-      this.level = 4;
-    }
-    
 
-    // if (this.ninja.y > canvasHeight) {
-    //   console.log("restart the game");
-    //   //location.reload();
-    //   //this.restartGame();
-    // }
+    if (this.score >= 20) {
+      this.currentLevel = 3;
+    }
+
+    if (this.score >= 30) {
+      this.currentLevel = 4;
+    }
+
+    if (this.ninja.y > canvasHeight) {
+      this.ninja.fall();
+      this.ninja.life--;
+
+      if (this.ninja.life > 0) {
+        // Respawn on the next platform
+        const nextPlatform = this.platforms[nextPlatformIndex];
+        this.ninja.respawn(nextPlatform);
+      } else {
+        console.log("Game Over");
+        location.reload();
+      }
+    }
 
     this.draw();
   }

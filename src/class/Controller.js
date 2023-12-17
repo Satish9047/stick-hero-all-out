@@ -2,11 +2,11 @@ class Controller {
   constructor() {
     this.stickStretch = false;
     this.release = false;
-    //        console.log(this.release);
+    //console.log(this.release);
 
     this.mouseDown();
     this.mouseUp();
-    //        this.touch()
+    // this.touch()
   }
 
   mouseDown() {
@@ -16,7 +16,7 @@ class Controller {
         this.stickStretch = true;
         this.release = false;
         playGame.currentState = GameState.STRETCHING;
-        console.log(playGame.currentState, "3rd");
+        //console.log(playGame.currentState, "3rd");
       }
     });
   }
@@ -27,7 +27,7 @@ class Controller {
         this.release = true;
         this.stickStretch = false;
         playGame.currentState = GameState.TURNING;
-        console.log(playGame.currentState, "4th");
+        //console.log(playGame.currentState, "4th");
       } 
     });
   }

@@ -8,7 +8,7 @@
 
 // })
 
-const higestScore = document.getElementById("Highest-score");
+// const higestScore = document.getElementById("Highest-score");
 
 
 
