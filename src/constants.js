@@ -1,5 +1,5 @@
 //Game physics
-const GRAVITY = 0.4;
+const GRAVITY = 0.2;
 let VELOCITY = 0;
 
 //Plaform properties

@@ -33,7 +33,16 @@ class Stick {
     } else {
       stickStretchAudio.play();
       stickStretchAudio.playbackRate = 1;
-      this.height += STRETCH_SPEED;
+      if(playGame.level === 2){
+        this.height += STRETCH_SPEED + 3;
+      }else if(playGame.score === 3){
+        this.height += STRETCH_SPEED + 5;
+      }else if(playGame.score === 4){
+        this.height += STRETCH_SPEED + 7;
+      }else{
+        this.height += STRETCH_SPEED;
+      }
+      
     }
   }
 }
