@@ -22,6 +22,9 @@ class Capsule {
       case "fly":
         capsuleColor = "green"
         break;
+      case "life":
+        capsuleColor = "purple"
+        break;
     }
 
     ctx.beginPath();
@@ -56,6 +59,9 @@ class Capsule {
           
           break;
         case "fly":
+          
+          break;
+        case "life":
           
           break;
       

@@ -87,3 +87,26 @@ function checkCollision(stick, capsule) {
   // Check if the distance is less than or equal to the sum of the capsule's radius and half of the stick's width
   return distance <= capsule.radius + stick.width / 2;
 }
+
+
+/**
+ * Get Current Platform Index
+ *
+ * @param {object} ninja ninja properties
+ * @param {array} platforms array of platform properties
+ * @returns {number} index of the platform that ninja is on, or -1 if not on any platform
+ */
+function getCurrPlatformIndex(ninja, platforms) {
+  for (let i = 0; i < platforms.length; i++) {
+    const platform = platforms[i];
+    if (
+      ninja.y + ninja.height >= platform.y &&
+      ninja.y <= platform.y + platform.height &&
+      ninja.x >= platform.x &&
+      ninja.x + ninja.width <= platform.x + platform.width
+    ) {
+      return i;
+    }
+  }
+  return -1;
+}

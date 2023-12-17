@@ -73,11 +73,11 @@ class Game {
   }
 
   run() {
-    console.log("current state", this.currentState);
-    const currPlatformIndex = this.getCurrPlatformIndex();
+    //console.log("current state", this.currentState);
+    const currPlatformIndex = getCurrPlatformIndex(this.ninja, this.platforms);
     const nextPlatformIndex = currPlatformIndex + 1;
     this.nextPlatform = this.platforms[nextPlatformIndex];
-
+    
     //console.log(currPlatformIndex, "current platform index")
     if (currPlatformIndex !== -1) {
       this.stick = this.stickArry[currPlatformIndex];
@@ -98,14 +98,26 @@ class Game {
       this.capsuleArry = [];
     }
 
-    //stop the hero
-    if (
-      this.currentState === GameState.WALKING &&
-      this.ninja.x + this.ninja.width >
-        this.currentPlatform.x + this.currentPlatform.width
-    ) {
-      this.currentState = GameState.WAITING;
-    }
+  
+// stop the hero
+if (
+  this.currentState === GameState.WALKING &&
+  this.ninja.x + this.ninja.width >=
+    this.currentPlatform.x + this.currentPlatform.width
+) {
+  const stickEndPosition = this.stick.x + this.stick.height;
+  const distanceToNextPlatform = this.nextPlatform.x + this.nextPlatform.width;
+
+  if (stickEndPosition > distanceToNextPlatform) {
+    console.log("this stick is too long")
+    this.currentState = GameState.WALKING;
+  } else {
+    this.currentState = GameState.WAITING;
+    console.log("the stick is perfect");
+  }
+}
+
+    
 
     //if mouse clicked the stick height increased
     if (this.controller.stickStretch) {
@@ -156,21 +168,21 @@ class Game {
       this.currentState === GameState.WAITING &&
       this.score % 2 === 0 &&
       this.score !== 0 &&
-      this.capsuleArry.length === 0
+      this.capsuleArry.length === 0&&
+      this.currentPlatform.x + this.currentPlatform.width === this.ninja.x + this.ninja.width
     ) {
       // Adjust the probability as needed
       const capsuleX = getRandomNumber(canvasWidth / 2, canvasWidth / 1.2);
       const capsuleY = getRandomNumber(canvasHeight - 300, canvasHeight / 2);
       const capsuleRadius = getRandomNumber(12, 35);
 
-      const capsuleTypes = ["jump", "score", "fly"];
+      const capsuleTypes = ["jump", "score", "fly", "life"];
       //selecting random capsuletype
       const randomType = capsuleTypes[Math.floor(Math.random() * capsuleTypes.length)];
 
-
-
-      const newCapsule = new Capsule(capsuleX, capsuleY, capsuleRadius, randomType);
-      this.capsuleArry.push(newCapsule);
+        const newCapsule = new Capsule(capsuleX, capsuleY, capsuleRadius, randomType);
+        this.capsuleArry.push(newCapsule);
+  
     }
 
     // Iterating over each capsule and call the draw and update methods
@@ -194,46 +206,4 @@ class Game {
     this.draw();
   }
 
-  /**
-   * Get Current Platform
-   *
-   * @returns {index} returns the index of the platform that ninja is in
-   */
-  getCurrPlatformIndex() {
-    for (let i = 0; i < this.platforms.length; i++) {
-      const platform = this.platforms[i];
-      if (
-        this.ninja.y + this.ninja.height >= platform.y &&
-        this.ninja.y <= platform.y + platform.height &&
-        this.ninja.x >= platform.x &&
-        this.ninja.x + this.ninja.width <= platform.x + platform.width
-      ) {
-        //console.log(`Hero is on Platform ${i + 1}`);
-        return i;
-      }
-    }
-    //console.log("Hero is not on any platform");
-    return -1;
-  }
-
-  //   // Check for collision between stick and capsule
-  // checkCollision(stick, capsule) {
-  //   // Find the closest point on the stick's rectangle to the capsule's center
-  //   let closestX = Math.max(
-  //     stick.x,
-  //     Math.min(capsule.x, stick.x + stick.height)
-  //   );
-  //   let closestY = Math.max(
-  //     stick.y,
-  //     Math.min(capsule.y, stick.y + stick.height)
-  //   );
-
-  //   // Calculate the distance between the closest point and the capsule's center
-  //   let distanceX = capsule.x - closestX;
-  //   let distanceY = capsule.y - closestY;
-  //   let distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
-  //   // Check if the distance is less than or equal to the sum of the capsule's radius and half of the stick's width
-  //   return distance <= capsule.radius + stick.height / 2;
-  // }
 }
