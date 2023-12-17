@@ -12,6 +12,7 @@ class Game {
     this.score = 0;
     this.higestScore = window.localStorage.getItem("higestScore") || 0;
     higestScore.append(this.higestScore);
+    this.currentLevel = 1;
 
     this.currentPlatform = null;
     this.nextPlatform = null;
@@ -28,15 +29,16 @@ class Game {
     // Generate platforms with random spacing and width using a loop
     let prevX = canvasWidth / 4;
     for (let i = 0; i < 8; i++) {
-      const platformWidth = getRandomNumber(70, 110);
-      const platform = new Platform(prevX, canvasHeight - 200, platformWidth);
+  
+      const platform = new Platform(prevX, canvasHeight - 200);
       this.platforms.push(platform);
-      prevX += platformWidth + getRandomNumber(70, 250);
+      
 
       const stickX = platform.x + platform.width - STICK_WIDTH;
       const stickY = platform.y;
       const stick = new Stick(stickX, stickY);
       this.stickArry.push(stick);
+      prevX += platform.width + getRandomNumber(100, 480);
     }
 
     // Instance of Hero
@@ -77,7 +79,7 @@ class Game {
     const currPlatformIndex = getCurrPlatformIndex(this.ninja, this.platforms);
     const nextPlatformIndex = currPlatformIndex + 1;
     this.nextPlatform = this.platforms[nextPlatformIndex];
-    
+
     //console.log(currPlatformIndex, "current platform index")
     if (currPlatformIndex !== -1) {
       this.stick = this.stickArry[currPlatformIndex];
@@ -98,26 +100,17 @@ class Game {
       this.capsuleArry = [];
     }
 
-  
-// stop the hero
-if (
-  this.currentState === GameState.WALKING &&
-  this.ninja.x + this.ninja.width >=
-    this.currentPlatform.x + this.currentPlatform.width
-) {
-  const stickEndPosition = this.stick.x + this.stick.height;
-  const distanceToNextPlatform = this.nextPlatform.x + this.nextPlatform.width;
-
-  if (stickEndPosition > distanceToNextPlatform) {
-    console.log("this stick is too long")
-    this.currentState = GameState.WALKING;
-  } else {
-    this.currentState = GameState.WAITING;
-    console.log("the stick is perfect");
-  }
-}
-
-    
+    // stop the hero
+    if (
+      this.currentState === GameState.WALKING &&
+      this.ninja.x + this.ninja.width >=
+        this.currentPlatform.x + this.currentPlatform.width
+    ) {
+      
+        this.currentState = GameState.WAITING;
+        console.log("the stick is perfect");
+      
+    }
 
     //if mouse clicked the stick height increased
     if (this.controller.stickStretch) {
@@ -168,34 +161,54 @@ if (
       this.currentState === GameState.WAITING &&
       this.score % 2 === 0 &&
       this.score !== 0 &&
-      this.capsuleArry.length === 0&&
-      this.currentPlatform.x + this.currentPlatform.width === this.ninja.x + this.ninja.width
+      this.capsuleArry.length === 0 &&
+      this.currentPlatform.x + this.currentPlatform.width ===
+        this.ninja.x + this.ninja.width
     ) {
       // Adjust the probability as needed
-      const capsuleX = getRandomNumber(canvasWidth / 2, canvasWidth / 1.2);
+      const capsuleX = getRandomNumber(canvasWidth / 3, canvasWidth / 1.5);
       const capsuleY = getRandomNumber(canvasHeight - 300, canvasHeight / 2);
       const capsuleRadius = getRandomNumber(12, 35);
 
       const capsuleTypes = ["jump", "score", "fly", "life"];
       //selecting random capsuletype
-      const randomType = capsuleTypes[Math.floor(Math.random() * capsuleTypes.length)];
+      const randomType =
+        capsuleTypes[Math.floor(Math.random() * capsuleTypes.length)];
 
-        const newCapsule = new Capsule(capsuleX, capsuleY, capsuleRadius, randomType);
-        this.capsuleArry.push(newCapsule);
-  
+      const newCapsule = new Capsule(
+        capsuleX,
+        capsuleY,
+        capsuleRadius,
+        randomType
+      );
+      this.capsuleArry.push(newCapsule);
     }
 
     // Iterating over each capsule and call the draw and update methods
     this.capsuleArry.forEach((capsule) => {
       capsule.draw();
       // Passing the stick for collision detection
-      capsule.update(this.stick); 
+      capsule.update(this.stick);
     });
 
     //saving the higest score in the local storage
     if (this.score > this.higestScore) {
       window.localStorage.setItem("higestScore", this.score);
     }
+
+    //level up controller
+    if(this.score <=10 ){
+      this.level = 2;
+    }
+    
+    if(this.score <=20 ){
+      this.level = 3;
+    }
+    
+    if(this.score <=30 ){
+      this.level = 4;
+    }
+    
 
     if (this.ninja.y > canvasHeight) {
       console.log("restart the game");
@@ -205,5 +218,4 @@ if (
 
     this.draw();
   }
-
 }

@@ -23,10 +23,12 @@ class Controller {
 
   mouseUp() {
     window.addEventListener("mouseup", (event) => {
-      this.release = true;
-      this.stickStretch = false;
-      playGame.currentState = GameState.TURNING;
-      console.log(playGame.currentState, "4th");
+      if(this.stickStretch && !this.release ){
+        this.release = true;
+        this.stickStretch = false;
+        playGame.currentState = GameState.TURNING;
+        console.log(playGame.currentState, "4th");
+      } 
     });
   }
 }

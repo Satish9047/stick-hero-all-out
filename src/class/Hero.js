@@ -49,11 +49,12 @@ class Hero {
     switch (playGame.currentState) {
       case GameState.WAITING:
         if (!currentPlatform) break;
-        this.x = currentPlatform.x + currentPlatform.width - this.width;
+        this.x = currentPlatform.x + currentPlatform.width - this.width-stick.width;
         VELOCITY = 0;
         break;
       case GameState.STRETCHING:
         //console.log(stick);
+        this.x += 0;
         stick?.update();
         break;
       case GameState.TURNING:
