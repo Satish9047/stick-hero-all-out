@@ -9,6 +9,7 @@ const GameState = {
 
 class Game {
   constructor() {
+    this.hasGameStarted = false;
     this.score = 0;
     this.higestScore = window.localStorage.getItem("higestScore") || 0;
     higestScore.append(this.higestScore);
@@ -75,6 +76,7 @@ class Game {
   }
 
   run() {
+    if(!this.hasGameStarted) return;
     //console.log("current state", this.currentState);
     const currPlatformIndex = getCurrPlatformIndex(this.ninja, this.platforms);
     const nextPlatformIndex = currPlatformIndex + 1;
