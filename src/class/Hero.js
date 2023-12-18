@@ -8,7 +8,7 @@ class Hero {
     this.heroLife = 3;
     this.image = new Image();
     this.image.src = "./src/img/ninjaorange1.png";
-    this.life = 30;
+    this.life = 3;
   }
 
   // Update method
