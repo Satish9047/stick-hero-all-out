@@ -5,8 +5,8 @@ const rePlaySection = document.querySelector(".re-play-section")
 const playSection = document.querySelector(".play-section")
 const rePlayBtn = document.querySelector(".re-play-btn")
 const yourScore = document.getElementById("your-score")
-const higestScore = document.getElementById("highest-score");
-const higestScoreRePlay = document.getElementById("highest-score-replay");
+const highestScoreElement = document.getElementById("highest-score");
+const highestScoreReplay = document.getElementById("highest-score-replay");
 
 canvas.style.display ="none";
 rePlaySection.style.display = "none";
@@ -18,13 +18,13 @@ playBtn.addEventListener("click", ()=>{
     canvas.style.display = "block";
 })
 
-rePlayBtn.addEventListener("click",()=>{
-    console.log("replay clicked")
+rePlayBtn.addEventListener("click", () => {
+    console.log("replay clicked");
     playGame.hasGameStarted = true;
-    canvas.style.display ="block";
+    canvas.style.display = "block";
     rePlaySection.style.display = "none";
-})
-
+    location.reload();
+});
 
 
 

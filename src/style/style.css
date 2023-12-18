@@ -35,15 +35,21 @@ body{
     border-radius: 50%;
 }
 
-.re-play-btn{
+.re-play-btn {
     text-decoration: none;
-    background-color: #9A031E;
+    background-color: #9a031e;
     color: #fff;
     font-size: 28px;
     padding: 70px 40px;
     border: none;
     border-radius: 50%;
-}
+    width: 150px; 
+    height: 150px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
 
 .replay-menu {
     position: absolute;

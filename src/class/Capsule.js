@@ -62,7 +62,9 @@ class Capsule {
           
           break;
         case "life":
-          
+          if(playGame.ninja.life < 3){
+            playGame.ninja.life += 1;
+          }
           break;
       
         default:

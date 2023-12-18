@@ -11,9 +11,13 @@ class Game {
   constructor() {
     this.hasGameStarted = false;
     this.score = 0;
-    this.higestScore = window.localStorage.getItem("higestScore") || 0;
-    higestScore.append(this.higestScore);
-    yourScore.append(this.score);
+ 
+
+    this.highestScore = window.localStorage.getItem("highestScore") || 0;
+    highestScoreElement.append(this.highestScore);
+
+    
+    highestScoreReplay.append(this.highestScore) ;
    // higestScoreRePlay.append(this.higestScore);
 
     this.currentLevel = 1;
@@ -86,6 +90,8 @@ class Game {
   }
 
   run() {
+    
+
     if(!this.hasGameStarted) return;
     //console.log("current state", this.currentState);
     const currPlatformIndex = getCurrPlatformIndex(this.ninja, this.platforms);
@@ -204,8 +210,8 @@ class Game {
     });
 
     //saving the higest score in the local storage
-    if (this.score > this.higestScore) {
-      window.localStorage.setItem("higestScore", this.score);
+    if (this.score > this.highestScore) {
+      localStorage.setItem("highestScore", this.score);
     }
 
     //level up controller
@@ -236,6 +242,9 @@ class Game {
         this.hasGameStarted=false;
       }
     }
+
+    //update score
+    yourScore.innerHTML = this.score;
 
     this.draw();
   }
