@@ -29,7 +29,6 @@ class Stick {
   update() {
     if (this.y - this.height <= 5) {
       this.height += 0;
-      console.log("stop");
     } else {
       stickStretchAudio.play();
       stickStretchAudio.playbackRate = 1;

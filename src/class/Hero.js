@@ -8,7 +8,7 @@ class Hero {
     this.heroLife = 3;
     this.image = new Image();
     this.image.src = "./src/img/ninjaorange1.png";
-    this.life = 3;
+    this.life = 30;
   }
 
   // Update method
@@ -60,7 +60,8 @@ class Hero {
       case GameState.TURNING:
         stick?.rotate();
         if (stick?.rotation === 90) {
-          const nextPlatformIndex = getCurrPlatformIndex(playGame.ninja, platforms) + 1;
+          const nextPlatformIndex =
+            getCurrPlatformIndex(playGame.ninja, platforms) + 1;
           const nextPlatform = platforms[nextPlatformIndex];
           // console.log("hello", nextPlatform);
           const isLandingSuccessful =
@@ -105,7 +106,8 @@ class Hero {
   respawn(nextPlatform) {
     console.log(nextPlatform);
     this.y = nextPlatform.y - this.height;
-    this.x = nextPlatform.x + nextPlatform.width - this.width - playGame.stick.width;
+    this.x =
+      nextPlatform.x + nextPlatform.width - this.width - playGame.stick.width;
     VELOCITY = 0;
   }
 }

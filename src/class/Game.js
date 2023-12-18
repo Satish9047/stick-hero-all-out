@@ -11,17 +11,17 @@ class Game {
   constructor() {
     this.hasGameStarted = false;
     this.score = 0;
- 
+
     this.highestScore = window.localStorage.getItem("highestScore") || 0;
     highestScoreElement.append(this.highestScore);
 
-    highestScoreReplay.append(this.highestScore) ;
-   // higestScoreRePlay.append(this.higestScore);
+    highestScoreReplay.append(this.highestScore);
+    // higestScoreRePlay.append(this.higestScore);
 
     this.currentLevel = 1;
 
     this.currentPlatform = null;
-    this.nextPlatform = null;
+
     // game state
     this.currentState = GameState.WALKING;
     //console.log(this.currentState, "1st")
@@ -32,16 +32,14 @@ class Game {
     this.capsuleArry = [];
     this.stick = null;
 
-
     this.nextPlatformState = {
-      index: 0, 
+      index: 0,
       platform: null,
     };
 
     // Generate platforms with random spacing and width using a loop
     let prevX = canvasWidth / 4;
     for (let i = 0; i < 8; i++) {
-  
       const platform = new Platform(prevX, canvasHeight - 200);
       this.platforms.push(platform);
 
@@ -93,22 +91,25 @@ class Game {
   }
 
   run() {
-    
-
-    if(!this.hasGameStarted) return;
-    //console.log("current state", this.currentState);
+    if (!this.hasGameStarted) return;
     const currPlatformIndex = getCurrPlatformIndex(this.ninja, this.platforms);
-    const nextPlatformIndex = currPlatformIndex + 1;
-    this.nextPlatform = this.platforms[nextPlatformIndex];
+    //console.log("current state", this.currentState);
 
-    //console.log(currPlatformIndex, "current platform index")
-    //if(  this.stick.height===0 || this.stick.height > this.nextPlatform.x + this.nextPlatform.width){
+    if (currPlatformIndex !== -1) {
+      this.currentPlatform = this.platforms[currPlatformIndex];
+      const nextPlatformIndex = currPlatformIndex + 1;
+      this.nextPlatformState.index = nextPlatformIndex;
+      this.nextPlatformState.platform = this.platforms[nextPlatformIndex];
+    }
+
+    // Check collision with the stick
+    if (!collisionDetectionWithStick(this.ninja, this.stick)) {
       if (currPlatformIndex !== -1) {
         this.stick = this.stickArry[currPlatformIndex];
-        this.currentPlatform = this.platforms[currPlatformIndex];
-        this.nextPlatformState.index = currPlatformIndex + 1;
       }
-    //}
+    }
+
+    //update ninja position
     this.ninja.update(this.platforms, this.stick, this.currentPlatform);
 
     //sliding the view
@@ -127,13 +128,16 @@ class Game {
     // stop the hero
     if (
       this.currentState === GameState.WALKING &&
-      this.ninja.x + this.ninja.width >= this.currentPlatform.x + this.currentPlatform.width
+      this.ninja.x + this.ninja.width >=
+        this.currentPlatform.x + this.currentPlatform.width
     ) {
-
       //console.log(this.stick, this.currentPlatform, this.stick.height < this.currentPlatform.x + this.currentPlatform.width)
-      if(this.stick.height < this.currentPlatform.x + this.currentPlatform.width){
-          this.currentState = GameState.WAITING;
-          //console.log("the stick is perfect");
+      if (
+        this.stick.height <
+        this.currentPlatform.x + this.currentPlatform.width
+      ) {
+        this.currentState = GameState.WAITING;
+        //console.log("the stick is perfect");
       }
     }
 
@@ -223,18 +227,17 @@ class Game {
     }
 
     //level up controller
-    if(this.score > 10 ){
+    if (this.score > 10) {
       this.currentLevel = 2;
     }
-    
-    if(this.score > 20 ){
+
+    if (this.score > 20) {
       this.currentLevel = 3;
     }
-    
-    if(this.score >30 ){
+
+    if (this.score > 30) {
       this.currentLevel = 4;
     }
-    
 
     if (this.ninja.y > canvasHeight) {
       this.ninja.fall();
@@ -242,13 +245,12 @@ class Game {
 
       if (this.ninja.life > 0) {
         // Respawn on the next platform
-        const nextPlatform = this.platforms[this.nextPlatformState.index];
-        this.ninja.respawn(nextPlatform);
-        console.log("next platform index",this.nextPlatformState);
+        this.ninja.respawn(this.nextPlatformState.platform);
+        //console.log("next platform index", this.nextPlatformState.index);
       } else {
         canvas.style.display = "none";
         rePlaySection.style.display = "block";
-        this.hasGameStarted=false;
+        this.hasGameStarted = false;
       }
     }
 
