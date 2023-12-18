@@ -5,6 +5,8 @@ const ctx = canvas.getContext("2d");
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
+
+
 //saving the canvas width and height in an variable;
 let canvasWidth = canvas.width;
 let canvasHeight = canvas.height;
@@ -14,6 +16,7 @@ const playGame = new Game();
 
 //animation loop
 function animate() {
+  
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
   playGame.run();
   window.requestAnimationFrame(animate);

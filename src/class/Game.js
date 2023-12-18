@@ -13,6 +13,9 @@ class Game {
     this.score = 0;
     this.higestScore = window.localStorage.getItem("higestScore") || 0;
     higestScore.append(this.higestScore);
+    yourScore.append(this.score);
+   // higestScoreRePlay.append(this.higestScore);
+
     this.currentLevel = 1;
 
     this.currentPlatform = null;
@@ -61,6 +64,12 @@ class Game {
     ctx.fillText(`Score: ${this.score}`, canvasWidth - 120, 30);
   }
 
+  drawLife() {
+    ctx.fillStyle = "#161A30";
+    ctx.font = "26px Arial";
+    ctx.fillText(`Life: ${playGame.ninja.life}`, 60, 30);
+  }
+
   draw() {
     this.ninja.draw();
     this.platforms.forEach((platform) => {
@@ -68,6 +77,7 @@ class Game {
     });
     this.stick?.draw();
     this.drawScore();
+    this.drawLife();
 
     // Iterate over each capsule and call the draw method
     this.capsuleArry.forEach((capsule) => {
@@ -110,7 +120,7 @@ class Game {
     ) {
       
         this.currentState = GameState.WAITING;
-        console.log("the stick is perfect");
+        //console.log("the stick is perfect");
       
     }
 
@@ -199,24 +209,33 @@ class Game {
     }
 
     //level up controller
-    if(this.score <=10 ){
-      this.level = 2;
+    if(this.score > 10 ){
+      this.currentLevel = 2;
     }
     
-    if(this.score <=20 ){
-      this.level = 3;
+    if(this.score > 20 ){
+      this.currentLevel = 3;
     }
     
-    if(this.score <=30 ){
-      this.level = 4;
+    if(this.score >30 ){
+      this.currentLevel = 4;
     }
     
 
-    // if (this.ninja.y > canvasHeight) {
-    //   console.log("restart the game");
-    //   //location.reload();
-    //   //this.restartGame();
-    // }
+    if (this.ninja.y > canvasHeight) {
+      this.ninja.fall();
+      this.ninja.life--;
+
+      if (this.ninja.life > 0) {
+        // Respawn on the next platform
+        const nextPlatform = this.platforms[nextPlatformIndex];
+        this.ninja.respawn(nextPlatform);
+      } else {
+        canvas.style.display = "none";
+        rePlaySection.style.display = "block";
+        this.hasGameStarted=false;
+      }
+    }
 
     this.draw();
   }

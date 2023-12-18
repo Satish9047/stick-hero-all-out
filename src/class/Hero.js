@@ -34,7 +34,7 @@ class Hero {
       this.y = stick.y - this.height;
       VELOCITY = 0;
     }
-    console.log("collision is happening with stick",collisionDetectionWithStick(playGame.ninja, stick))
+    //console.log("collision is happening with stick",collisionDetectionWithStick(playGame.ninja, stick))
 
     //fall condition
     for (const platform of platforms) {
@@ -100,5 +100,12 @@ class Hero {
   fall() {
     fallAudio.play();
     this.y += VELOCITY;
+  }
+
+  respawn(nextPlatform) {
+    console.log(nextPlatform);
+    this.y = nextPlatform.y - this.height;
+    this.x = nextPlatform.x + nextPlatform.width - this.width - playGame.stick.width;
+    VELOCITY = 0;
   }
 }
