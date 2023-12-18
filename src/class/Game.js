@@ -12,11 +12,9 @@ class Game {
     this.hasGameStarted = false;
     this.score = 0;
  
-
     this.highestScore = window.localStorage.getItem("highestScore") || 0;
     highestScoreElement.append(this.highestScore);
 
-    
     highestScoreReplay.append(this.highestScore) ;
    // higestScoreRePlay.append(this.higestScore);
 
@@ -34,13 +32,18 @@ class Game {
     this.capsuleArry = [];
     this.stick = null;
 
+
+    this.nextPlatformState = {
+      index: 0, 
+      platform: null,
+    };
+
     // Generate platforms with random spacing and width using a loop
     let prevX = canvasWidth / 4;
     for (let i = 0; i < 8; i++) {
   
       const platform = new Platform(prevX, canvasHeight - 200);
       this.platforms.push(platform);
-      
 
       const stickX = platform.x + platform.width - STICK_WIDTH;
       const stickY = platform.y;
@@ -99,10 +102,13 @@ class Game {
     this.nextPlatform = this.platforms[nextPlatformIndex];
 
     //console.log(currPlatformIndex, "current platform index")
-    if (currPlatformIndex !== -1) {
-      this.stick = this.stickArry[currPlatformIndex];
-      this.currentPlatform = this.platforms[currPlatformIndex];
-    }
+    //if(  this.stick.height===0 || this.stick.height > this.nextPlatform.x + this.nextPlatform.width){
+      if (currPlatformIndex !== -1) {
+        this.stick = this.stickArry[currPlatformIndex];
+        this.currentPlatform = this.platforms[currPlatformIndex];
+        this.nextPlatformState.index = currPlatformIndex + 1;
+      }
+    //}
     this.ninja.update(this.platforms, this.stick, this.currentPlatform);
 
     //sliding the view
@@ -121,13 +127,14 @@ class Game {
     // stop the hero
     if (
       this.currentState === GameState.WALKING &&
-      this.ninja.x + this.ninja.width >=
-        this.currentPlatform.x + this.currentPlatform.width
+      this.ninja.x + this.ninja.width >= this.currentPlatform.x + this.currentPlatform.width
     ) {
-      
-        this.currentState = GameState.WAITING;
-        //console.log("the stick is perfect");
-      
+
+      //console.log(this.stick, this.currentPlatform, this.stick.height < this.currentPlatform.x + this.currentPlatform.width)
+      if(this.stick.height < this.currentPlatform.x + this.currentPlatform.width){
+          this.currentState = GameState.WAITING;
+          //console.log("the stick is perfect");
+      }
     }
 
     //if mouse clicked the stick height increased
@@ -147,6 +154,7 @@ class Game {
       this.ninja.x < this.stick.x + this.stick.height
     ) {
       this.currentState = GameState.WALKING;
+      //console.log("current platform", this.currentPlatform);
     }
 
     // Remove platforms and sticks that have moved off the left side of the canvas
@@ -234,8 +242,9 @@ class Game {
 
       if (this.ninja.life > 0) {
         // Respawn on the next platform
-        const nextPlatform = this.platforms[nextPlatformIndex];
+        const nextPlatform = this.platforms[this.nextPlatformState.index];
         this.ninja.respawn(nextPlatform);
+        console.log("next platform index",this.nextPlatformState);
       } else {
         canvas.style.display = "none";
         rePlaySection.style.display = "block";

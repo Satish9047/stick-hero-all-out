@@ -70,6 +70,7 @@ class Capsule {
         default:
           break;
       }
+
     }
 
     // Update collision detection flag based on current collision status
