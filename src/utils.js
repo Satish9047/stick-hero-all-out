@@ -88,7 +88,6 @@ function checkCollision(stick, capsule) {
   return distance <= capsule.radius + stick.width / 2;
 }
 
-
 /**
  * Get Current Platform Index
  *

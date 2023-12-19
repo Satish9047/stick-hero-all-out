@@ -18,7 +18,6 @@ class Hero {
 
     // Check collision with platforms
     for (const platform of platforms) {
-      //console.log(collisionDetection(playGame.ninja, platform))
       if (collisionDetection(playGame.ninja, platform)) {
         if (this.y + this.height > platform.y) {
           this.fall();
@@ -34,7 +33,6 @@ class Hero {
       this.y = stick.y - this.height;
       VELOCITY = 0;
     }
-    //console.log("collision is happening with stick",collisionDetectionWithStick(playGame.ninja, stick))
 
     //fall condition
     for (const platform of platforms) {
@@ -54,7 +52,6 @@ class Hero {
         VELOCITY = 0;
         break;
       case GameState.STRETCHING:
-        //console.log(stick);
         stick?.update();
         this.x += 0;
         break;
@@ -64,7 +61,6 @@ class Hero {
           const nextPlatformIndex =
             getCurrPlatformIndex(playGame.ninja, platforms) + 1;
           const nextPlatform = platforms[nextPlatformIndex];
-          // console.log("hello", nextPlatform);
           const isLandingSuccessful =
             stick &&
             stick.rotation === 90 &&
@@ -73,7 +69,7 @@ class Hero {
 
           if (isLandingSuccessful) {
             stickLandedAudio.play();
-            playGame.score++; // Increase the score
+            playGame.score++;
             console.log(playGame.score);
           }
         }
@@ -82,12 +78,8 @@ class Hero {
       case GameState.WALKING:
         this.walk();
         break;
-
-      default:
-      //this.x += HERO_SPEED;
     }
     this.y += VELOCITY;
-    // this.x += HERO_SPEED;
   }
 
   // Draw the hero on the canvas
@@ -95,15 +87,18 @@ class Hero {
     ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
 
+  //walk method
   walk() {
-    //ninjaRunAudio.play();
     this.x += HERO_SPEED;
   }
+
+  //fall method
   fall() {
     fallAudio.play();
     this.y += VELOCITY;
   }
 
+  //respawn method
   respawn(nextPlatform) {
     console.log(nextPlatform);
     this.y = nextPlatform.y - this.height;

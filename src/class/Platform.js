@@ -6,19 +6,22 @@ class Platform {
     this.height = PLATFORM_HEIGHT;
     this.color = "black";
   }
+  //update
   update() {
-    if(playGame.currentLevel === 2){
+    //change the width of the platform according to the level
+    if (playGame.currentLevel === 2) {
       this.width = getRandomNumber(65, 95);
     }
-    if(playGame.currentLevel === 3){
+    if (playGame.currentLevel === 3) {
       this.width = getRandomNumber(65, 80);
     }
-    if(playGame.currentLevel === 4){
+    if (playGame.currentLevel === 4) {
       this.width = getRandomNumber(60, 75);
     }
-
     this.draw();
   }
+
+  //platform draw function
   draw() {
     ctx.fillStyle = this.color;
     ctx.fillRect(this.x, this.y, this.width, this.height);

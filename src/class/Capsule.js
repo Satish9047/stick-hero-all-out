@@ -1,29 +1,28 @@
 // capsule.js
 class Capsule {
   constructor(x, y, radius, capsuleType) {
-    this.x = x
-    this.y = y
-    this.radius = radius
-    this.type = capsuleType
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.type = capsuleType;
     this.collisionDetected = false;
   }
 
   draw() {
-
     let capsuleColor;
     //selecting color according to the capsule type
     switch (this.type) {
       case "score":
-        capsuleColor = "blue"
+        capsuleColor = "blue";
         break;
       case "jump":
-        capsuleColor = "red"
+        capsuleColor = "red";
         break;
       case "fly":
-        capsuleColor = "green"
+        capsuleColor = "green";
         break;
       case "life":
-        capsuleColor = "purple"
+        capsuleColor = "purple";
         break;
     }
 
@@ -35,42 +34,33 @@ class Capsule {
     ctx.lineWidth = 2;
     ctx.stroke();
     ctx.closePath();
-
-    
   }
 
   update(stick) {
     // Check if collision with stick
     const isColliding = checkCollision(stick, this);
 
-    // Check if collision is detected 
+    // Check if collision is detected
     if (stick && isColliding && !this.collisionDetected) {
       console.log("collision detected");
-      
+
       //to avoid continuous detection
       this.collisionDetected = true;
 
-
       switch (this.type) {
         case "score":
-          playGame.score += 5; 
-          break;
-        case "jump":
-          
-          break;
-        case "fly":
-          
+          playGame.score += 5;
           break;
         case "life":
-          if(playGame.ninja.life < 3){
+          if (playGame.ninja.life < 3) {
             playGame.ninja.life += 1;
           }
           break;
-      
         default:
           break;
       }
 
+      playGame.capsuleArry = [];
     }
 
     // Update collision detection flag based on current collision status

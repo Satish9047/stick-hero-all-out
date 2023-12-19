@@ -4,7 +4,7 @@ class Stick {
     this.x = x;
     this.y = y;
     this.width = STICK_WIDTH;
-    this.height = 0; // Set initial height to 0
+    this.height = 0;
     this.rotation = 0;
   }
 
@@ -17,6 +17,7 @@ class Stick {
     ctx.restore();
   }
 
+  //rotation
   rotate() {
     if (this.rotation < 90) {
       this.rotation += ROTATION_SPEED;
@@ -26,7 +27,9 @@ class Stick {
     }
   }
 
+  //stick update
   update() {
+    //control stick stretching according to the current level
     if (this.y - this.height <= 5) {
       this.height += 0;
     } else {

@@ -1,30 +1,30 @@
+//game state
 const GameState = {
   WAITING: "waiting",
   STRETCHING: "stretching",
   TURNING: "turning",
   WALKING: "walking",
-  TRANSITIONING: "transitioning",
-  FALLING: "falling",
 };
 
 class Game {
   constructor() {
+    //has game started
     this.hasGameStarted = false;
+
+    //your score
     this.score = 0;
 
+    //initilizing the highest score and append to html
     this.highestScore = window.localStorage.getItem("highestScore") || 0;
     highestScoreElement.append(this.highestScore);
-
     highestScoreReplay.append(this.highestScore);
-    // higestScoreRePlay.append(this.higestScore);
 
+    //current level
     this.currentLevel = 1;
-
     this.currentPlatform = null;
 
     // game state
     this.currentState = GameState.WALKING;
-    //console.log(this.currentState, "1st")
 
     // platform
     this.platforms = [];
@@ -43,38 +43,42 @@ class Game {
       const platform = new Platform(prevX, canvasHeight - 200);
       this.platforms.push(platform);
 
+      //generating stick
       const stickX = platform.x + platform.width - STICK_WIDTH;
       const stickY = platform.y;
       const stick = new Stick(stickX, stickY);
       this.stickArry.push(stick);
-      prevX += platform.width + getRandomNumber(100, 480);
+      prevX += platform.width + getRandomNumber(100, 470);
     }
 
-    // Instance of Hero
+    //Creating instance of Hero
     let heroX =
       this.platforms[0].x + (this.platforms[0].width - HERO_WIDTH) / 2;
     let heroY = canvasHeight - (PLATFORM_HEIGHT + HERO_HEIGHT);
     this.ninja = new Hero(heroX, heroY, HERO_WIDTH, HERO_HEIGHT, HERO_COLOR);
 
-    // controller
+    // Creating instance of controller
     this.controller = new Controller();
 
-    //capsule
+    //Creating instance of capsule
     this.capsule = new Capsule(200, 200, 20);
   }
 
+  //draw method for score
   drawScore() {
     ctx.fillStyle = "#161A30";
     ctx.font = "26px Arial";
     ctx.fillText(`Score: ${this.score}`, canvasWidth - 120, 30);
   }
 
+  //draw method for ninja life
   drawLife() {
     ctx.fillStyle = "#161A30";
     ctx.font = "26px Arial";
     ctx.fillText(`Life: ${playGame.ninja.life}`, 60, 30);
   }
 
+  //draw
   draw() {
     this.ninja.draw();
     this.platforms.forEach((platform) => {
@@ -91,10 +95,13 @@ class Game {
   }
 
   run() {
+    //check game start
     if (!this.hasGameStarted) return;
-    const currPlatformIndex = getCurrPlatformIndex(this.ninja, this.platforms);
-    //console.log("current state", this.currentState);
 
+    // storing the current platform index
+    const currPlatformIndex = getCurrPlatformIndex(this.ninja, this.platforms);
+
+    //storing the current platform index and next platform index
     if (currPlatformIndex !== -1) {
       this.currentPlatform = this.platforms[currPlatformIndex];
       const nextPlatformIndex = currPlatformIndex + 1;
@@ -104,6 +111,7 @@ class Game {
 
     // Check collision with the stick
     if (!collisionDetectionWithStick(this.ninja, this.stick)) {
+      //activing the current platform stick
       if (currPlatformIndex !== -1) {
         this.stick = this.stickArry[currPlatformIndex];
       }
@@ -172,14 +180,13 @@ class Game {
     // Generate new platforms and sticks when the number of existing platforms is less than 6
     while (this.platforms.length < 6) {
       const lastPlatform = this.platforms[this.platforms.length - 1];
-      const platformWidth = getRandomNumber(50, 110);
+      //const platformWidth = getRandomNumber(50, 110);
       const newPlatform = new Platform(
-        lastPlatform.x + lastPlatform.width + getRandomNumber(70, 250),
+        lastPlatform.x + lastPlatform.width + getRandomNumber(100, 250),
         canvasHeight - 200,
-        platformWidth
+        this.platforms.width
       );
       this.platforms.push(newPlatform);
-
       const stickX = newPlatform.x + newPlatform.width - STICK_WIDTH;
       const stickY = newPlatform.y;
       const newStick = new Stick(stickX, stickY);
@@ -200,11 +207,14 @@ class Game {
       const capsuleY = getRandomNumber(canvasHeight - 300, canvasHeight / 2);
       const capsuleRadius = getRandomNumber(12, 35);
 
-      const capsuleTypes = ["jump", "score", "fly", "life"];
+      //types of capsule
+      const capsuleTypes = ["score", "life"];
+
       //selecting random capsuletype
       const randomType =
         capsuleTypes[Math.floor(Math.random() * capsuleTypes.length)];
 
+      //creating new capsule and push in an array
       const newCapsule = new Capsule(
         capsuleX,
         capsuleY,
@@ -230,15 +240,14 @@ class Game {
     if (this.score > 10) {
       this.currentLevel = 2;
     }
-
     if (this.score > 20) {
       this.currentLevel = 3;
     }
-
     if (this.score > 30) {
       this.currentLevel = 4;
     }
 
+    //Dead Condition
     if (this.ninja.y > canvasHeight) {
       this.ninja.fall();
       this.ninja.life--;
@@ -246,7 +255,6 @@ class Game {
       if (this.ninja.life > 0) {
         // Respawn on the next platform
         this.ninja.respawn(this.nextPlatformState.platform);
-        //console.log("next platform index", this.nextPlatformState.index);
       } else {
         canvas.style.display = "none";
         rePlaySection.style.display = "block";
