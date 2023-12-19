@@ -56,6 +56,7 @@ class Hero {
       case GameState.STRETCHING:
         //console.log(stick);
         stick?.update();
+        this.x += 0;
         break;
       case GameState.TURNING:
         stick?.rotate();
