@@ -182,7 +182,7 @@ class Game {
       const lastPlatform = this.platforms[this.platforms.length - 1];
       //const platformWidth = getRandomNumber(50, 110);
       const newPlatform = new Platform(
-        lastPlatform.x + lastPlatform.width + getRandomNumber(100, 250),
+        lastPlatform.x + lastPlatform.width + getRandomNumber(100, 450),
         canvasHeight - 200,
         this.platforms.width
       );
